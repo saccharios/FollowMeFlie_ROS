@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.1.0)
 project(FollowMeFlieRos)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
@@ -9,6 +9,26 @@ add_compile_options(-std=c++11)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+)
+
+set(CMAKE_PREFIX_PATH
+    "/usr/include/x86_64-linux-gnu/qt5")
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOMOC ON)
+# Create code from a list of Qt designer ui files
+set(CMAKE_AUTOUIC ON)
+# Find the QtWidgets library
+find_package(Qt5Widgets CONFIG REQUIRED)
+
+
+# Populate a CMake variable with the sources
+set(helloworld_SRCS
+    src/mainwindow.ui
+    src/mainwindow.cpp
+    src/main_window_test.cpp
 )
 
 ## System dependencies are found with CMake's conventions
@@ -131,7 +151,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node src/main_window_test.cpp)
+add_executable(${PROJECT_NAME}_node ${helloworld_SRCS})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -147,7 +167,7 @@ add_executable(${PROJECT_NAME}_node src/main_window_test.cpp)
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
 )
-
+target_link_libraries(${PROJECT_NAME}_node Qt5::Widgets)
 #############
 ## Install ##
 #############

@@ -10,9 +10,10 @@ add_compile_options(-std=c++11)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
 )
-
-set(CMAKE_PREFIX_PATH
-    "/usr/include/x86_64-linux-gnu/qt5")
+#Include QT5
+set(CMAKE_PREFIX_PATH "/usr/include/x86_64-linux-gnu/qt5")
+#Always build debug
+set(CMAKE_BUILD_TYPE Debug)
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

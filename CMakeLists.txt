@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1.0)
-project(FollowMeFlieRos)
+project(follow_me_flie_ros)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -122,7 +122,7 @@ set(helloworld_SRCS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES FollowMeFlieRos
+  LIBRARIES follow_me_flie_ros
   CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
 )

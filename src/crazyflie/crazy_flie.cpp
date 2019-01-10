@@ -4,7 +4,7 @@
 #include "math/types.h"
 #include "math/functions.h"
 #include "protocol.h"
-#include "constants.h"
+
 Crazyflie::Crazyflie(RadioDongle & radioDongle) :
     _radioDongle(radioDongle),
     _ackMissTolerance(100),
@@ -13,6 +13,7 @@ Crazyflie::Crazyflie(RadioDongle & radioDongle) :
     _maxSetPoint({45.0,45.0,180.0,60000}),
     _minThrust(0),
     _isSendingVelocityRef(false),
+    _disconnect(false),
     _startConnecting(false),
     _state (State::ZERO),
     _parameters(_radioDongle),

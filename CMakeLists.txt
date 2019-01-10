@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1.0)
 project(follow_me_flie_ros)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++17)
+set(CMAKE_CXX_STANDARD 17)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -137,11 +137,24 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  src
 )
 
 ## Declare a C++ library
 add_library(${PROJECT_NAME}_lib
   src/text_logger.cpp
+  src/math/functions.cpp
+  src/math/kalman_filter.cpp
+  src/math/lowpass.cpp
+  src/math/pi_controller.cpp
+  src/math/pid_controller.cpp
+  src/math/types.cpp
+  src/crazyflie/crazy_flie_commander.cpp
+  src/crazyflie/crazy_flie.cpp
+  src/crazyflie/crtp_packet.cpp
+  src/crazyflie/radio_dongle.cpp
+  src/crazyflie/toc_log.cpp
+  src/crazyflie/toc_parameter.cpp
 )
 target_link_libraries(${PROJECT_NAME}_lib
    Qt5::Widgets

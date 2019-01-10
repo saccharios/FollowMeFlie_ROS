@@ -140,10 +140,12 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/FollowMeFlieRos.cpp
-# )
-
+add_library(${PROJECT_NAME}_lib
+  src/text_logger.cpp
+)
+target_link_libraries(${PROJECT_NAME}_lib
+   Qt5::Widgets
+)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -168,7 +170,10 @@ add_executable(${PROJECT_NAME}_node ${helloworld_SRCS})
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
 )
-target_link_libraries(${PROJECT_NAME}_node Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME}_node 
+    Qt5::Widgets
+    ${PROJECT_NAME}_lib
+)
 #############
 ## Install ##
 #############

@@ -23,7 +23,16 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 # Find the QtWidgets library
 find_package(Qt5Widgets CONFIG REQUIRED)
-
+find_package(Qt5Core CONFIG REQUIRED)
+find_package(Qt5Multimedia CONFIG REQUIRED)
+find_package(Qt5MultimediaWidgets CONFIG REQUIRED)
+find_package(Qt5Gui CONFIG REQUIRED)
+set(qt5_components
+   Qt5::Widgets
+   Qt5::Multimedia
+   Qt5::MultimediaWidgets
+   Qt5::Gui
+)
 
 # Populate a CMake variable with the sources
 set(helloworld_SRCS
@@ -155,9 +164,16 @@ add_library(${PROJECT_NAME}_lib
   src/crazyflie/radio_dongle.cpp
   src/crazyflie/toc_log.cpp
   src/crazyflie/toc_parameter.cpp
+  src/qt_util.cpp
+  src/opencv_utils.cpp
+  src/imageprocess/ball_kalman_filter_2d.cpp
+  src/imageprocess/ball_kalman_filter_3d.cpp
+  src/imageprocess/camera.cpp
+  src/imageprocess/coordinate_conversions.cpp
+  src/imageprocess/extract_color.cpp
 )
 target_link_libraries(${PROJECT_NAME}_lib
-   Qt5::Widgets
+    ${qt5_components}
 )
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

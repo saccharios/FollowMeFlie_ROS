@@ -5,8 +5,6 @@ project(follow_me_flie_ros)
 set(CMAKE_CXX_STANDARD 17)
 
 ## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
 )
@@ -32,20 +30,6 @@ set(qt5_components
    Qt5::Multimedia
    Qt5::MultimediaWidgets
    Qt5::Gui
-)
-
-# Populate a CMake variable with the sources
-set(GUI_APP_SRCS
-    src/main.cpp
-    src/gui/actual_values_model.cpp
-    src/gui/camera_view_painter.cpp
-    src/gui/main_window.cpp
-    src/gui/main_window.ui
-    src/gui/parameter_model.cpp
-    src/gui/set_point_dialog.cpp
-    src/gui/set_point_dialog.ui
-    src/gui/table_model_base.cpp
-    src/gui/tracking_color.cpp
 )
 
 ## System dependencies are found with CMake's conventions
@@ -141,7 +125,6 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES follow_me_flie_ros
   CATKIN_DEPENDS roscpp
-#  DEPENDS system_lib
 )
 
 ###########
@@ -151,12 +134,11 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
   ${catkin_INCLUDE_DIRS}
   src
 )
 
-## Declare a C++ library
+## Declare crazy_flie_library
 add_library(${PROJECT_NAME}_lib
   src/text_logger.cpp
   src/math/functions.cpp
@@ -190,6 +172,19 @@ target_link_libraries(${PROJECT_NAME}_lib
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
+
+set(GUI_APP_SRCS
+    src/main.cpp
+    src/gui/actual_values_model.cpp
+    src/gui/camera_view_painter.cpp
+    src/gui/main_window.cpp
+    src/gui/main_window.ui
+    src/gui/parameter_model.cpp
+    src/gui/set_point_dialog.cpp
+    src/gui/set_point_dialog.ui
+    src/gui/table_model_base.cpp
+    src/gui/tracking_color.cpp
+)
 add_executable(${PROJECT_NAME}_node ${GUI_APP_SRCS})
 
 ## Rename C++ executable without prefix
@@ -252,7 +247,7 @@ target_link_libraries(${PROJECT_NAME}_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_FollowMeFlieRos.cpp)
+# catkin_add_gtest(${PROJECT_NAME}_test test/test_FollowMeFlieRos.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

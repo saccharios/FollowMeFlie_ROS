@@ -35,7 +35,7 @@ set(qt5_components
 )
 
 # Populate a CMake variable with the sources
-set(helloworld_SRCS
+set(GUI_APP_SRCS
     src/mainwindow.ui
     src/mainwindow.cpp
     src/main_window_test.cpp
@@ -183,7 +183,7 @@ target_link_libraries(${PROJECT_NAME}_lib
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node ${helloworld_SRCS})
+add_executable(${PROJECT_NAME}_node ${GUI_APP_SRCS})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

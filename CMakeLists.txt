@@ -247,7 +247,16 @@ target_link_libraries(${PROJECT_NAME}_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}_test test/test_FollowMeFlieRos.cpp)
+if(CATKIN_ENABLE_TESTING)
+    catkin_add_gtest(${PROJECT_NAME}_test 
+        test/test_main.cpp
+        test/camera_test.cpp
+    )
+    target_link_libraries(${PROJECT_NAME}_test
+        ${PROJECT_NAME}_lib
+        ${OpenCV_LIBRARIES}
+    )
+endif()
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

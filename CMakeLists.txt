@@ -36,9 +36,16 @@ set(qt5_components
 
 # Populate a CMake variable with the sources
 set(GUI_APP_SRCS
-    src/mainwindow.ui
-    src/mainwindow.cpp
-    src/main_window_test.cpp
+    src/main.cpp
+    src/gui/actual_values_model.cpp
+    src/gui/camera_view_painter.cpp
+    src/gui/main_window.cpp
+    src/gui/main_window.ui
+    src/gui/parameter_model.cpp
+    src/gui/set_point_dialog.cpp
+    src/gui/set_point_dialog.ui
+    src/gui/table_model_base.cpp
+    src/gui/tracking_color.cpp
 )
 
 ## System dependencies are found with CMake's conventions
@@ -196,13 +203,15 @@ add_executable(${PROJECT_NAME}_node ${GUI_APP_SRCS})
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
+find_package(OpenCV 3 CONFIG REQUIRED)
+
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
+   Qt5::Widgets
+   ${PROJECT_NAME}_lib
+   ${OpenCV_LIBRARIES}
 )
-target_link_libraries(${PROJECT_NAME}_node 
-    Qt5::Widgets
-    ${PROJECT_NAME}_lib
-)
+
 #############
 ## Install ##
 #############

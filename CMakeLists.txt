@@ -251,6 +251,14 @@ if(CATKIN_ENABLE_TESTING)
     catkin_add_gtest(${PROJECT_NAME}_test 
         test/test_main.cpp
         test/camera_test.cpp
+        test/crtppacket_test.cpp
+        test/delay_test.cpp
+        test/double_buffer_test.cpp
+        test/logic_test.cpp
+        test/math_function_test.cpp
+        test/pid_controller_test.cpp
+        test/stl_utils_test.cpp
+        test/toc_log_test.cpp
     )
     target_link_libraries(${PROJECT_NAME}_test
         ${PROJECT_NAME}_lib

@@ -434,7 +434,7 @@ bool Crazyflie::IsGoneCrazy() const
 }
 void Crazyflie::ReceiveBallEstimate(Point3f const & ballEstimate)
 {
-    SendActualPosition(ConvertToPosition(ballEstimate));
+    //SendActualPosition(ConvertToPosition(ballEstimate));
 }
 void Crazyflie::SetKalmanIsFlying(bool enable)
 {

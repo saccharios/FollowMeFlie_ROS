@@ -112,7 +112,7 @@ void Crazyflie::Update()
     case State::SET_PARAMETERS:
     {
         // Set Parameters that take into account the increased weight due to the camera
-        _parameters.WriteParameter(static_cast<uint8_t>(TocParameter::posCtlPid::thrustBase), 44000); //40000
+        _parameters.WriteParameter(static_cast<uint8_t>(TocParameter::posCtlPid::thrustBase), 43000); //40000
         _parameters.WriteParameter(static_cast<uint8_t>(TocParameter::posCtlPid::thrustMin), 25000); //23000
         _parameters.WriteParameter(static_cast<uint8_t>(TocParameter::velCtlPid::vxKp), 8); // default 25
         _parameters.WriteParameter(static_cast<uint8_t>(TocParameter::velCtlPid::vxKi), 0.1f);// default 1

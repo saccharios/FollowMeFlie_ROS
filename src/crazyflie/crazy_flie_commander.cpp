@@ -82,7 +82,7 @@ void CrazyFlieCommander::Update()
             Velocity velocity;
             velocity[0] = 0.0;
             velocity[1] = 0.0;
-            velocity[2] = 0.6f*(_takeOffCntr/_takeOffTimeTicks) + 0.3f;
+            velocity[2] = 0.6f*(_takeOffCntr/_takeOffTimeTicks) + 0.1f;
             _crazyflie.SetVelocityCrazyFlieRef(velocity);
             _crazyflie.SetSendingVelocityRef(true);
 

@@ -69,7 +69,7 @@ public:
     {
         enRangeStreamFP32 = 19,
     };
-    enum class pid_rate : uint8_t
+    enum class pid_attitude : uint8_t
     {
         roll_kp = 20,
         roll_ki = 21,
@@ -81,7 +81,7 @@ public:
         yaw_ki = 27,
         yaw_kd = 28,
     };
-    enum class pid_attitude : uint8_t
+    enum class pid_rate : uint8_t
     {
         roll_kp = 29,
         roll_ki = 30,
@@ -100,17 +100,17 @@ public:
         baseZacc = 40,
     };
 
+    enum class health : uint8_t
+    {
+        startPropTest = 41,
+    };
 
     enum class stabilizer : uint8_t
     {
-        estimator = 41,
-        controller = 42,
+        estimator = 42,
+        controller = 43,
     };
 
-    enum class health : uint8_t
-    {
-        startPropTest = 43,
-    };
 
     enum class posEstAlt : uint8_t
     {
@@ -120,34 +120,34 @@ public:
         velZAlpha = 47,
         vAccDeadband= 48,
     };
-    enum class velCtlPid : uint8_t
-    {
-        vxKp = 49,
-        vxKi = 50,
-        vxKd = 51,
-        vyKp = 52,
-        vyKi = 53,
-        vyKd = 54,
-        vzKp = 55,
-        vzKi = 56,
-        vzKd = 57,
-    };
     enum class posCtlPid : uint8_t
     {
-        xKp = 58,
-        xKi = 59,
-        xKd = 60,
-        yKp = 61,
-        yKi = 62,
-        yKd = 63,
-        zKp = 64,
-        zKi = 65,
-        zKd = 66,
-        thrustBase = 67,
-        thrustMin = 68,
-        rpLimit = 69,
-        xyVelMax = 70,
-        zVelMax = 71,
+        xKp = 49,
+        xKi = 50,
+        xKd = 51,
+        yKp = 52,
+        yKi = 53,
+        yKd = 54,
+        zKp = 55,
+        zKi = 56,
+        zKd = 57,
+        thrustBase = 58,
+        thrustMin = 59,
+        rpLimit = 60,
+        xyVelMax = 61,
+        zVelMax = 62,
+    };
+    enum class velCtlPid : uint8_t
+    {
+        vxKp = 63,
+        vxKi = 64,
+        vxKd = 65,
+        vyKp = 66,
+        vyKi = 67,
+        vyKd = 68,
+        vzKp = 69,
+        vzKi = 70,
+        vzKd = 71,
     };
     enum class controller : uint8_t
     {
@@ -191,14 +191,14 @@ public:
         revision1 = 98,
         modified = 99,
     };
-    enum class imu_tests : uint8_t
-    {
-        MPU6500 = 100,
-        HMC5883L = 101,
-        MS5611 = 102,
-    };
     enum class imu_sensors : uint8_t
     {
+        HMC5883L = 100,
+        MS5611 = 101,
+    };
+    enum class imu_tests : uint8_t
+    {
+        MPU6500 = 102,
         HMC5883L = 103,
         MS5611 = 104,
     };
@@ -248,15 +248,15 @@ public:
         bcUSD = 140,
         bcZRanger = 141,
         bcZRagner2 = 142,
-        bcDWM1000 = 144,
-        bcFlow = 148,
-        bcFlow2 = 149,
+        bcDWM1000 = 143,
+        bcFlow = 147,
+        bcFlow2 = 148,
         bcOA = 150,
         bcMultiranger = 151,
     };
     enum class loco : uint8_t
     {
-        mode = 143,
+        mode = 144,
     };
     enum class tdoa3 : uint8_t
     {
@@ -265,7 +265,7 @@ public:
     };
     enum class motion : uint8_t
     {
-        disable = 147,
+        disable = 149,
     };
 
 

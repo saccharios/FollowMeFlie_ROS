@@ -43,25 +43,26 @@ void CrazyFlieCommander::Update()
         {
             _takeOffCntr = 0;
             _crazyflie.InitKalmanFilter(ConvertToPosition(_currentBallEstimate.read()));
-            _crazyflie.SetKalmanIsFlying(true);
-            _flightState = FlightState::ResetKalman;
+            _flightState = FlightState::TakeOff;
+            ResetVelocityController();
         }
         break;
     }
     case FlightState::ResetKalman:
     {
-        ++_takeOffCntr;
-
-        if(_takeOffCntr < 10)
-        {
-            _crazyflie.ResetCrazyflieKalmanFilter(true);
-        }
-        else
-        {
-            ResetVelocityController();
-            _takeOffCntr = 0;
-            _flightState = FlightState::TakeOff;
-        }
+//        ++_takeOffCntr;
+//
+//        if(_takeOffCntr < 10)
+//        {
+//            _crazyflie.ResetCrazyflieKalmanFilter(true);
+//        }
+//        else
+//        {
+//            ResetVelocityController();
+//            _takeOffCntr = 0;
+//            _flightState = FlightState::TakeOff;
+//            _crazyflie.SetKalmanIsFlying(true);
+//        }
         break;
     }
     case FlightState::TakeOff:
@@ -81,11 +82,11 @@ void CrazyFlieCommander::Update()
             Velocity velocity;
             velocity[0] = 0.0;
             velocity[1] = 0.0;
-            velocity[2] = 0.5f*(_takeOffCntr/_takeOffTimeTicks) + 0.1f;
+            velocity[2] = 0.6f*(_takeOffCntr/_takeOffTimeTicks) + 0.3f;
             _crazyflie.SetVelocityCrazyFlieRef(velocity);
             _crazyflie.SetSendingVelocityRef(true);
 
-            _crazyflie.SendActualPosition(ConvertToPosition(_currentBallEstimate.read()));
+            //_crazyflie.SendActualPosition(ConvertToPosition(_currentBallEstimate.read()));
             ++_takeOffCntr;
             if( _takeOffCntr == _takeOffTimeTicks)
             {
@@ -150,7 +151,7 @@ void CrazyFlieCommander::ResetVelocityController(float z_integral_part, float y_
 }
 Velocity CrazyFlieCommander::UpdateHoverMode()
 {
-    _crazyflie.SendActualPosition(ConvertToPosition(_currentBallEstimate.read()));
+//    _crazyflie.SendActualPosition(ConvertToPosition(_currentBallEstimate.read()));
     Point3f const & currentEstimate = _currentBallEstimate.read(); // is in meter
     Velocity velocity;
     Point3f error = currentEstimate - _setPoint;

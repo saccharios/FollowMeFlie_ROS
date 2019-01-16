@@ -16,10 +16,6 @@ CrazyFlieCommander::CrazyFlieCommander(Crazyflie & crazyflie, float samplingTime
 // Periodically called
 void CrazyFlieCommander::Update()
 {
-    if(FlightState::Off != _flightState)
-    {
-        std::cout << "flight state = " << static_cast<int>(_flightState) << std::endl;
-    }
     bool emergencyStopInternal = commands.emergencyStop || _crazyflie.IsGoneCrazy();
 
     switch(_flightState)
@@ -48,23 +44,6 @@ void CrazyFlieCommander::Update()
         }
         break;
     }
-    case FlightState::ResetKalman:
-    {
-//        ++_takeOffCntr;
-//
-//        if(_takeOffCntr < 10)
-//        {
-//            _crazyflie.ResetCrazyflieKalmanFilter(true);
-//        }
-//        else
-//        {
-//            ResetVelocityController();
-//            _takeOffCntr = 0;
-//            _flightState = FlightState::TakeOff;
-//            _crazyflie.SetKalmanIsFlying(true);
-//        }
-        break;
-    }
     case FlightState::TakeOff:
     {
         if(!commands.enableHover)
@@ -78,7 +57,7 @@ void CrazyFlieCommander::Update()
         }
         else
         {
-            // Start with z-velocity 0.9m/s and gradually decrease to 0.3 in the time given
+            // Start with z-velocity 0.7 m/s and gradually decrease to 0.1 in the time given
             Velocity velocity;
             velocity[0] = 0.0;
             velocity[1] = 0.0;
@@ -86,7 +65,6 @@ void CrazyFlieCommander::Update()
             _crazyflie.SetVelocityCrazyFlieRef(velocity);
             _crazyflie.SetSendingVelocityRef(true);
 
-            //_crazyflie.SendActualPosition(ConvertToPosition(_currentBallEstimate.read()));
             ++_takeOffCntr;
             if( _takeOffCntr == _takeOffTimeTicks)
             {
@@ -151,7 +129,6 @@ void CrazyFlieCommander::ResetVelocityController(float z_integral_part, float y_
 }
 Velocity CrazyFlieCommander::UpdateHoverMode()
 {
-//    _crazyflie.SendActualPosition(ConvertToPosition(_currentBallEstimate.read()));
     Point3f const & currentEstimate = _currentBallEstimate.read(); // is in meter
     Velocity velocity;
     Point3f error = currentEstimate - _setPoint;

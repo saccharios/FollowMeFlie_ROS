@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "follow_me_flie_main");
     ros::NodeHandle nh;
-    ROS_INFO("Hello world!");
 
     textLogger.Init();
     QApplication app(argc, argv);

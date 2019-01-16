@@ -15,7 +15,6 @@ public:
     {
         Off = 0,
         WaitCameraOn = 1,
-        ResetKalman = 2,
         TakeOff = 3,
         Follow = 4,
         Landing = 5,

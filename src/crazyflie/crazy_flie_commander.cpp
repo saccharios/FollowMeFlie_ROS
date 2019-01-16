@@ -16,7 +16,10 @@ CrazyFlieCommander::CrazyFlieCommander(Crazyflie & crazyflie, float samplingTime
 // Periodically called
 void CrazyFlieCommander::Update()
 {
-//    std::cout << "flight state = " << static_cast<int>(_flightState) << std::endl;
+    if(FlightState::Off != _flightState)
+    {
+        std::cout << "flight state = " << static_cast<int>(_flightState) << std::endl;
+    }
     bool emergencyStopInternal = commands.emergencyStop || _crazyflie.IsGoneCrazy();
 
     switch(_flightState)

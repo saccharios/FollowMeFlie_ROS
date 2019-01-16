@@ -45,8 +45,8 @@ void Camera::Update()
     case CameraState::CONNECTING:
     {
         emit CameraIsRunning(false);
-        textLogger << "Found Cameras: " << QCameraInfo::availableCameras().count() << "\n";
-        _capture->open(1); // 0 for laptop camera // 1 for crazyflie camera // 2 for creative camera
+        std::cout << "Found Cameras: " << QCameraInfo::availableCameras().count() << "\n";
+        _capture->open(0); // 1 for laptop camera // 0 for crazyflie camera // 2 for creative camera
         if(_activated && _capture->isOpened())
         {
             cv::Size resolution;

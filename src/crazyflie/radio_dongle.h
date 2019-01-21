@@ -72,7 +72,7 @@ private:
     const std::string _dataRate = "2M";
     const int _ardTime = 0; // not used
     const int _ardBytes = 32;
-    PowerSettings _power;
+    const PowerSettings _power = PowerSettings::P_0DBM;
     uint8_t* _address;
     int _contCarrier;
     float _deviceVersion;

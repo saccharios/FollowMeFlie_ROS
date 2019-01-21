@@ -9,7 +9,6 @@ RadioDongle::RadioDongle() :
     _context(nullptr),
     _devDevice(nullptr),
     _device(nullptr),
-    _power(PowerSettings::P_M18DBM),
     _address(nullptr),
     _contCarrier(0),
     _deviceVersion(0.0f),
@@ -150,7 +149,7 @@ void RadioDongle::StartRadio()
                 address[3] = 0xe7;
                 address[4] = 0xe7;
                 SetAddress(address);
-                SetPower(PowerSettings::P_0DBM);
+                SetPower(_power);
                 SetARC(_arc);
                 SetARDBytes(_ardBytes);
             }
@@ -303,8 +302,6 @@ RadioDongle::PowerSettings RadioDongle::Power()
 
 void RadioDongle::SetPower(PowerSettings power)
 {
-    _power = power;
-
     WriteRadioControl(nullptr, 0, DongleConfiguration::SET_RADIO_POWER, static_cast<unsigned short>(power), 0);
 }
 

@@ -9,8 +9,6 @@ RadioDongle::RadioDongle() :
     _context(nullptr),
     _devDevice(nullptr),
     _device(nullptr),
-    _ardTime(0),
-    _ardBytes(0),
     _power(PowerSettings::P_M18DBM),
     _address(nullptr),
     _contCarrier(0),
@@ -154,7 +152,7 @@ void RadioDongle::StartRadio()
                 SetAddress(address);
                 SetPower(PowerSettings::P_0DBM);
                 SetARC(_arc);
-                SetARDBytes(32);
+                SetARDBytes(_ardBytes);
             }
 
             WriteDataRate(_dataRate);
@@ -280,8 +278,6 @@ void RadioDongle::WriteDataRate(std::string dataRate)
 
 void RadioDongle::SetARDTime(int ARDTime)
 { // in uSec
-    _ardTime = ARDTime;
-
     int T = int((ARDTime / 250) - 1);
     if(T < 0)
     {
@@ -297,8 +293,6 @@ void RadioDongle::SetARDTime(int ARDTime)
 
 void RadioDongle::SetARDBytes(int ARDBytes)
 {
-    _ardBytes = ARDBytes;
-
     WriteRadioControl(nullptr, 0, DongleConfiguration::SET_RADIO_ARD, 0x80 | ARDBytes, 0);
 }
 

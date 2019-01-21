@@ -70,8 +70,8 @@ private:
     const int _arc = 10;
     const int _channel = 80;
     const std::string _dataRate = "2M";
-    int _ardTime;
-    int _ardBytes;
+    const int _ardTime = 0; // not used
+    const int _ardBytes = 32;
     PowerSettings _power;
     uint8_t* _address;
     int _contCarrier;

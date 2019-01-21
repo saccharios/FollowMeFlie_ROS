@@ -127,7 +127,7 @@ void RadioDongle::StartRadio()
         libusb_get_device_descriptor(_devDevice, &descriptor);
         _deviceVersion = ConvertToDeviceVersion(descriptor.bcdDevice);
         textLogger << "Got device version " << _deviceVersion << "\n";
-        if(_deviceVersion < 0.3)
+        if(_deviceVersion < 0.4)
         {
             std::cout << "Device version too low. Device is not supported.\n";
             return;
@@ -139,15 +139,11 @@ void RadioDongle::StartRadio()
         bool claimInterfaceOK = ClaimInterface(0);
         if(claimInterfaceOK)
         {
-            if(_deviceVersion >= 0.4)
-            {
-                WriteContCarrier(_contCarrier);
-                WriteAddress(_address);
-                WritePower(_power);
-                WriteARC(_arc);
-                WriteARDBytes(_ardBytes);
-            }
-
+            WriteContCarrier(_contCarrier);
+            WriteAddress(_address);
+            WritePower(_power);
+            WriteARC(_arc);
+            WriteARDBytes(_ardBytes);
             WriteDataRate(_dataRate);
             WriteChannel(_channel);
 

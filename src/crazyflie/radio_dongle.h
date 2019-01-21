@@ -67,7 +67,7 @@ private:
     libusb_context* _context;
     libusb_device* _devDevice;
     libusb_device_handle* _device;
-    int _arc;
+    const int _arc = 10;
     const int _channel = 80;
     const std::string _dataRate = "2M";
     int _ardTime;

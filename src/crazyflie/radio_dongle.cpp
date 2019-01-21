@@ -9,7 +9,6 @@ RadioDongle::RadioDongle() :
     _context(nullptr),
     _devDevice(nullptr),
     _device(nullptr),
-    _arc(0),
     _ardTime(0),
     _ardBytes(0),
     _power(PowerSettings::P_M18DBM),
@@ -154,7 +153,7 @@ void RadioDongle::StartRadio()
                 address[4] = 0xe7;
                 SetAddress(address);
                 SetPower(PowerSettings::P_0DBM);
-                SetARC(10);
+                SetARC(_arc);
                 SetARDBytes(32);
             }
 
@@ -239,10 +238,9 @@ bool RadioDongle::WriteRadioControl(uint8_t* data, int length, DongleConfigurati
     return true;
 }
 
-void RadioDongle::SetARC(int ARC)
+void RadioDongle::SetARC(int arc)
 {
-    _arc = ARC;
-    WriteRadioControl(nullptr, 0, DongleConfiguration::SET_RADIO_ARC, ARC, 0);
+    WriteRadioControl(nullptr, 0, DongleConfiguration::SET_RADIO_ARC, arc, 0);
 }
 
 int RadioDongle::GetChannel() const

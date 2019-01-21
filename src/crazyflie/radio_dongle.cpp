@@ -9,7 +9,6 @@ RadioDongle::RadioDongle() :
     _context(nullptr),
     _devDevice(nullptr),
     _device(nullptr),
-    _contCarrier(0),
     _deviceVersion(0.0f),
     _ackReceived(false),
     _radioIsConnected(false),
@@ -142,7 +141,7 @@ void RadioDongle::StartRadio()
         {
             if(_deviceVersion >= 0.4)
             {
-                SetContCarrier(false);
+                SetContCarrier(_contCarrier);
                 SetAddress(_address);
                 SetPower(_power);
                 SetARC(_arc);
@@ -307,8 +306,6 @@ void RadioDongle::SetAddress(uint8_t*  address)
 
 void RadioDongle::SetContCarrier(bool contCarrier)
 {
-    _contCarrier = contCarrier;
-
     WriteRadioControl(nullptr, 0, DongleConfiguration::SET_CONT_CARRIER, (contCarrier ? 1 : 0), 0);
 }
 

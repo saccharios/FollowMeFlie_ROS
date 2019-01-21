@@ -75,7 +75,7 @@ private:
     const PowerSettings _power = PowerSettings::P_0DBM;
     static constexpr int addrLength = 5;
     uint8_t _address[addrLength];
-    int _contCarrier;
+    const bool _contCarrier = false;
     float _deviceVersion;
     bool _ackReceived;
     bool _radioIsConnected;

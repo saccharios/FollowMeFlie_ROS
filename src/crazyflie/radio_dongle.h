@@ -76,7 +76,7 @@ private:
     libusb_device* _devDevice;
     libusb_device_handle* _device;
     int _arc;
-    int _channel;
+    const int _channel = 80;
     std::string _dataRate;
     int _ardTime;
     int _ardBytes;
@@ -103,7 +103,6 @@ private:
     bool ReadData(uint8_t* data, int maxLength, int & actualLength);
 
     void SetARC(int ARC);
-    void setChannel(int channel);
     void WriteChannel(int channel);
     int GetChannel() const;
     void SetDataRate(std::string dataRate);

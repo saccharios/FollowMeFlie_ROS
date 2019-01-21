@@ -11,7 +11,6 @@ RadioDongle::RadioDongle() :
     _devDevice(nullptr),
     _device(nullptr),
     _arc(0),
-    _channel(0),
     _dataRate(""),
     _ardTime(0),
     _ardBytes(0),
@@ -130,19 +129,17 @@ void RadioDongle::ReadRadioSettings()
     {
     case RadioSettings::_080250K:
     {
-        setChannel(80);
         SetDataRate("250K");
         break;
     }
     default:
     case RadioSettings::_0802M:
     {
-        setChannel(80);
         SetDataRate("2M");
         break;
     }
     }
-    textLogger << "Opening radio " << dongleNBR << "/" << GetChannel() << "/" << GetDataRate() << "\n";
+    std::cout << "Opening radio " << dongleNBR << "/" << GetChannel() << "/" << GetDataRate() << "\n";
 }
 
 void RadioDongle::StartRadio()
@@ -189,6 +186,7 @@ void RadioDongle::StartRadio()
             }
 
             WriteDataRate(_dataRate);
+            std::cout << _channel << std::endl;
             WriteChannel(_channel);
 
             _radioIsConnected = true;
@@ -275,10 +273,6 @@ void RadioDongle::SetARC(int ARC)
     WriteRadioControl(nullptr, 0, DongleConfiguration::SET_RADIO_ARC, ARC, 0);
 }
 
-void RadioDongle::setChannel(int channel)
-{
-    _channel = channel;
-}
 int RadioDongle::GetChannel() const
 {
     return _channel;

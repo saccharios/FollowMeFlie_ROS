@@ -44,7 +44,7 @@ public:
     void StopRadio();
 
     RadioDongle::PowerSettings Power();
-    void SetPower(PowerSettings power);
+    void WritePower(PowerSettings power);
 
 
     bool AckReceived();
@@ -95,15 +95,15 @@ private:
     bool WriteData(uint8_t * data, int length);
     bool ReadData(uint8_t* data, int maxLength, int & actualLength);
 
-    void SetARC(int ARC);
+    void WriteARC(int ARC);
     void WriteChannel(int channel);
     int GetChannel() const;
     std::string const & GetDataRate() const;
     void WriteDataRate(std::string dataRate);
-    void SetARDBytes(int ARDBytes);
-    void SetARDTime(int ARDTime);
-    void SetAddress(uint8_t* address);
-    void SetContCarrier(bool contCarrier);
+    void WriteARDBytes(int ARDBytes);
+    void WriteARDTime(int ARDTime);
+    void WriteAddress(uint8_t* address);
+    void WriteContCarrier(bool contCarrier);
     bool WriteRadioControl(uint8_t* data, int length, DongleConfiguration request, uint16_t value, uint16_t index);
 
 

@@ -141,11 +141,11 @@ void RadioDongle::StartRadio()
         {
             if(_deviceVersion >= 0.4)
             {
-                SetContCarrier(_contCarrier);
-                SetAddress(_address);
-                SetPower(_power);
-                SetARC(_arc);
-                SetARDBytes(_ardBytes);
+                WriteContCarrier(_contCarrier);
+                WriteAddress(_address);
+                WritePower(_power);
+                WriteARC(_arc);
+                WriteARDBytes(_ardBytes);
             }
 
             WriteDataRate(_dataRate);
@@ -229,7 +229,7 @@ bool RadioDongle::WriteRadioControl(uint8_t* data, int length, DongleConfigurati
     return true;
 }
 
-void RadioDongle::SetARC(int arc)
+void RadioDongle::WriteARC(int arc)
 {
     WriteRadioControl(nullptr, 0, DongleConfiguration::SET_RADIO_ARC, arc, 0);
 }
@@ -269,7 +269,7 @@ void RadioDongle::WriteDataRate(std::string dataRate)
 
 
 
-void RadioDongle::SetARDTime(int ARDTime)
+void RadioDongle::WriteARDTime(int ARDTime)
 { // in uSec
     int T = int((ARDTime / 250) - 1);
     if(T < 0)
@@ -284,7 +284,7 @@ void RadioDongle::SetARDTime(int ARDTime)
     WriteRadioControl(nullptr, 0, DongleConfiguration::SET_RADIO_ARD, T, 0);
 }
 
-void RadioDongle::SetARDBytes(int ARDBytes)
+void RadioDongle::WriteARDBytes(int ARDBytes)
 {
     WriteRadioControl(nullptr, 0, DongleConfiguration::SET_RADIO_ARD, 0x80 | ARDBytes, 0);
 }
@@ -294,17 +294,17 @@ RadioDongle::PowerSettings RadioDongle::Power()
     return _power;
 }
 
-void RadioDongle::SetPower(PowerSettings power)
+void RadioDongle::WritePower(PowerSettings power)
 {
     WriteRadioControl(nullptr, 0, DongleConfiguration::SET_RADIO_POWER, static_cast<unsigned short>(power), 0);
 }
 
-void RadioDongle::SetAddress(uint8_t*  address)
+void RadioDongle::WriteAddress(uint8_t*  address)
 {
     WriteRadioControl(address, addrLength, DongleConfiguration::SET_RADIO_ADDRESS, 0, 0);
 }
 
-void RadioDongle::SetContCarrier(bool contCarrier)
+void RadioDongle::WriteContCarrier(bool contCarrier)
 {
     WriteRadioControl(nullptr, 0, DongleConfiguration::SET_CONT_CARRIER, (contCarrier ? 1 : 0), 0);
 }

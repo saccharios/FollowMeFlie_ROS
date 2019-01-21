@@ -30,7 +30,6 @@ signals:
 private slots:
     void on_disconnectRadio_clicked();
     void on_connectRadio_clicked();
-    void on_radioSettings_Options_currentIndexChanged(int index);
     void on_exitApp_clicked();
     void UpdateConnectionStatus();
     void DisplayConnectionTimeoutBox();

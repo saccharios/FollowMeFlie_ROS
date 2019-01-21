@@ -6,7 +6,6 @@
 #include <libusb-1.0/libusb.h>
 
 RadioDongle::RadioDongle() :
-    _radioSettings(RadioSettings::_0802M),
     _context(nullptr),
     _devDevice(nullptr),
     _device(nullptr),
@@ -116,28 +115,6 @@ bool RadioDongle::OpenUSBDongle()
 
     return false;
 }
-void RadioDongle::SetRadioSettings(int index)
-{
-    _radioSettings = static_cast<RadioSettings>(index);
-}
-
-void RadioDongle::ReadRadioSettings()
-{
-    int dongleNBR = 0;
-    switch(_radioSettings)
-    {
-    case RadioSettings::_080250K:
-    {
-        break;
-    }
-    default:
-    case RadioSettings::_0802M:
-    {
-        break;
-    }
-    }
-    std::cout << "Opening radio " << dongleNBR << "/" << GetChannel() << "/" << GetDataRate() << "\n";
-}
 
 void RadioDongle::StartRadio()
 {
@@ -145,7 +122,6 @@ void RadioDongle::StartRadio()
     auto USBDongleIsOpen = OpenUSBDongle();
     if( USBDongleIsOpen )
     {
-        ReadRadioSettings();
         // Read device version
         libusb_device_descriptor descriptor;
         libusb_get_device_descriptor(_devDevice, &descriptor);

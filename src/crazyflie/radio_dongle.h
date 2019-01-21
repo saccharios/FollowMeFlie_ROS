@@ -22,11 +22,6 @@ public:
         // Power at 0dbm
         P_0DBM = 3
     };
-    enum class RadioSettings
-    {
-        _0802M = 0,
-        _080250K = 1
-    };
 
     enum class DongleConfiguration
     {
@@ -55,8 +50,6 @@ public:
     bool AckReceived();
     bool IsUsbConnectionOk();
 
-    void SetRadioSettings(int index);
-
     bool RadioIsConnected() const;
 
     bool SendPacket(CRTPPacket && packet); // Call when a packet is requested to send
@@ -71,7 +64,6 @@ signals:
     void NewLoggerPacket(CRTPPacket packet);
 
 private:
-    RadioSettings _radioSettings;
     libusb_context* _context;
     libusb_device* _devDevice;
     libusb_device_handle* _device;

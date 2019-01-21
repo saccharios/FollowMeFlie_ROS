@@ -204,7 +204,6 @@ void MainWindow::on_connectRadio_clicked()
 
 void MainWindow::on_radioSettings_Options_currentIndexChanged(int index)
 {
-    _radioDongle.SetRadioSettings(index);
 }
 
 void MainWindow::on_exitApp_clicked()

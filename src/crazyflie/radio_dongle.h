@@ -77,7 +77,7 @@ private:
     libusb_device_handle* _device;
     int _arc;
     const int _channel = 80;
-    std::string _dataRate;
+    const std::string _dataRate = "2M";
     int _ardTime;
     int _ardBytes;
     PowerSettings _power;
@@ -105,7 +105,6 @@ private:
     void SetARC(int ARC);
     void WriteChannel(int channel);
     int GetChannel() const;
-    void SetDataRate(std::string dataRate);
     std::string const & GetDataRate() const;
     void WriteDataRate(std::string dataRate);
     void SetARDBytes(int ARDBytes);

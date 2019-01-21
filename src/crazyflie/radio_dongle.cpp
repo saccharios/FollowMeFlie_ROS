@@ -9,7 +9,6 @@ RadioDongle::RadioDongle() :
     _context(nullptr),
     _devDevice(nullptr),
     _device(nullptr),
-    _address(nullptr),
     _contCarrier(0),
     _deviceVersion(0.0f),
     _ackReceived(false),
@@ -20,6 +19,12 @@ RadioDongle::RadioDongle() :
     //    int returnVal = libusb_init(&_context);
     // Do error checking here.
     libusb_init(&_context);
+//
+    _address[0] = 0xe7;
+    _address[1] = 0xe7;
+    _address[2] = 0xe7;
+    _address[3] = 0xe7;
+    _address[4] = 0xe7;
 }
 RadioDongle::~RadioDongle()
 {
@@ -132,23 +137,13 @@ void RadioDongle::StartRadio()
         // Set active configuration to 1
         libusb_set_configuration(_device, 1);
         // Claim interface
-        bool claimIntf = ClaimInterface(0);
-        if(claimIntf)
+        bool claimInterfaceOK = ClaimInterface(0);
+        if(claimInterfaceOK)
         {
-            // Set power-up settings for dongle (>= v0.4)
-            //            WriteDataRate("2M");
-            //            WriteChannel(2);
-
             if(_deviceVersion >= 0.4)
             {
                 SetContCarrier(false);
-                uint8_t address[5];
-                address[0] = 0xe7;
-                address[1] = 0xe7;
-                address[2] = 0xe7;
-                address[3] = 0xe7;
-                address[4] = 0xe7;
-                SetAddress(address);
+                SetAddress(_address);
                 SetPower(_power);
                 SetARC(_arc);
                 SetARDBytes(_ardBytes);
@@ -307,9 +302,7 @@ void RadioDongle::SetPower(PowerSettings power)
 
 void RadioDongle::SetAddress(uint8_t*  address)
 {
-    _address = address;
-
-    WriteRadioControl(address, 5, DongleConfiguration::SET_RADIO_ADDRESS, 0, 0);
+    WriteRadioControl(address, addrLength, DongleConfiguration::SET_RADIO_ADDRESS, 0, 0);
 }
 
 void RadioDongle::SetContCarrier(bool contCarrier)

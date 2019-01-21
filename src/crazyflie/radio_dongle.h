@@ -73,7 +73,8 @@ private:
     const int _ardTime = 0; // not used
     const int _ardBytes = 32;
     const PowerSettings _power = PowerSettings::P_0DBM;
-    uint8_t* _address;
+    static constexpr int addrLength = 5;
+    uint8_t _address[addrLength];
     int _contCarrier;
     float _deviceVersion;
     bool _ackReceived;

@@ -1,7 +1,5 @@
 #include "radio_dongle.h"
 #include <chrono>
-//#undef _GLIBCXX_HAS_GTHREADS
-//#include "../../../mingw_std_threads/mingw.thread.h"
 #include "math/types.h"
 #include "crazyflie/protocol.h"
 #include "text_logger.h"

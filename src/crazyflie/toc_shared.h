@@ -46,7 +46,7 @@ public:
         {
             Data data = {channel::Commands::GetInfo::id};
             CRTPPacket packet(port, channel::id, std::move(data));
-            _radioDongle.RegisterPacketToSend(std::move(packet));
+            _radioDongle.RegisterPacketToSend(packet);
         }
         return (_itemCount > 0);
     }
@@ -70,7 +70,7 @@ public:
     {
         Data data = {channel::Commands::GetItem::id,id};
         CRTPPacket  packet(port, channel::id, std::move(data));
-        _radioDongle.RegisterPacketToSend(std::move(packet));
+        _radioDongle.RegisterPacketToSend(packet);
     }
 
 

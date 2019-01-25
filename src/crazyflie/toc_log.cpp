@@ -240,7 +240,7 @@ void TocLog::ResetLoggingBlocks()
     using channel = Logger::Control;
     Data data =  {channel::Commands::Reset::id};
     CRTPPacket packet(Logger::id, channel::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(std::move(packet));
+    _radioDongle.RegisterPacketToSend(packet);
     // There is no checking if all blocks are reset on the crazyflie.
     // Assume that this command never fails.
 
@@ -272,7 +272,7 @@ void TocLog::CreateLoggingBlock(LoggingBlock const & block)
     // Register new block
     Data data =  {channel::Commands::CreateBlock::id, block.id};
     CRTPPacket packet(Logger::id, channel::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(std::move(packet));
+    _radioDongle.RegisterPacketToSend(packet);
 }
 
 // As the crazyflie does only acknowledge that a variable was added to a logging block, but not which one, we must make sure
@@ -305,7 +305,7 @@ void TocLog::AppendLoggingBlocks()
             {
                 Data data = {channel::Commands::AppendBlock::id, block.id, static_cast<uint8_t>(element.type), element.id};
                 CRTPPacket packet(Logger::id, channel::id, std::move(data));
-                _radioDongle.RegisterPacketToSend(std::move(packet));
+                _radioDongle.RegisterPacketToSend(packet);
                 _elementToAdd = &element;
                 _appendingState = AppendState::WAIT_ANSWER;
 //                textLogger << "Request sent\n";
@@ -400,7 +400,7 @@ void TocLog::EnableLogging(LoggingBlock & block)
         Data data =  {channel::Commands::StartBlock::id, block.id, samplingRate};
 
         CRTPPacket packet(Logger::id, channel::id, std::move(data));
-        _radioDongle.RegisterPacketToSend(std::move(packet));
+        _radioDongle.RegisterPacketToSend(packet);
         block.state = LoggingBlock::State::isEnabled;
 }
 
@@ -622,7 +622,7 @@ void TocLog::Reset()
     using channel = Logger::Control;
     Data data =  {channel::Commands::Reset::id};
     CRTPPacket packet(Logger::id, channel::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(std::move(packet));
+    _radioDongle.RegisterPacketToSend(packet);
     _itemCount = 0;
     _tocElements.clear();
     _shared_impl.Reset();

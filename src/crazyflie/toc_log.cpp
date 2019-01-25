@@ -8,7 +8,6 @@
 #include "text_logger.h"
 
 TocLog::TocLog(RadioDongle & radioDongle) :
-    _radioDongle(radioDongle),
     _itemCount(0),
     _tocElements(),
     _shared_impl(_itemCount, _tocElements, radioDongle )
@@ -240,7 +239,7 @@ void TocLog::ResetLoggingBlocks()
     using channel = Logger::Control;
     Data data =  {channel::Commands::Reset::id};
     CRTPPacket packet(Logger::id, channel::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(packet);
+    emit SendPacket(packet);
     // There is no checking if all blocks are reset on the crazyflie.
     // Assume that this command never fails.
 
@@ -272,8 +271,9 @@ void TocLog::CreateLoggingBlock(LoggingBlock const & block)
     // Register new block
     Data data =  {channel::Commands::CreateBlock::id, block.id};
     CRTPPacket packet(Logger::id, channel::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(packet);
+    emit SendPacket(packet);
 }
+
 
 // As the crazyflie does only acknowledge that a variable was added to a logging block, but not which one, we must make sure
 // that only one variable is requested to be added until the acknowledge has arrived. Then we can proceed.
@@ -305,7 +305,7 @@ void TocLog::AppendLoggingBlocks()
             {
                 Data data = {channel::Commands::AppendBlock::id, block.id, static_cast<uint8_t>(element.type), element.id};
                 CRTPPacket packet(Logger::id, channel::id, std::move(data));
-                _radioDongle.RegisterPacketToSend(packet);
+                emit SendPacket(packet);
                 _elementToAdd = &element;
                 _appendingState = AppendState::WAIT_ANSWER;
 //                textLogger << "Request sent\n";
@@ -395,13 +395,13 @@ bool TocLog::EnableLogging()
 }
 void TocLog::EnableLogging(LoggingBlock & block)
 {
-        using channel = Logger::Control;
-        uint8_t samplingRate = static_cast<uint8_t>(100.0/ block.frequency);// The sampling rate is in 10ms units
-        Data data =  {channel::Commands::StartBlock::id, block.id, samplingRate};
+    using channel = Logger::Control;
+    uint8_t samplingRate = static_cast<uint8_t>(100.0/ block.frequency);// The sampling rate is in 10ms units
+    Data data =  {channel::Commands::StartBlock::id, block.id, samplingRate};
 
-        CRTPPacket packet(Logger::id, channel::id, std::move(data));
-        _radioDongle.RegisterPacketToSend(packet);
-        block.state = LoggingBlock::State::isEnabled;
+    CRTPPacket packet(Logger::id, channel::id, std::move(data));
+    emit SendPacket(packet);
+    block.state = LoggingBlock::State::isEnabled;
 }
 
 //void TocLog::DisableLogging()
@@ -617,12 +617,23 @@ void TocLog::ProcessLoggerData(Data const & data)
     }
 }
 
+void TocLog::LogKalmanPosition()
+{
+    bool found;
+    auto & result = STLUtils::ElementForName(_tocElements, "kalman.stateX", found);
+    _shared_impl.Log(result.id);
+    auto & result1 = STLUtils::ElementForName(_tocElements, "kalman.stateY", found);
+    _shared_impl.Log(result1.id);
+    auto & result2 = STLUtils::ElementForName(_tocElements, "kalman.stateZ", found);
+    _shared_impl.Log(result2.id);
+
+}
 void TocLog::Reset()
 {
     using channel = Logger::Control;
     Data data =  {channel::Commands::Reset::id};
     CRTPPacket packet(Logger::id, channel::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(packet);
+    SendPacket(packet);
     _itemCount = 0;
     _tocElements.clear();
     _shared_impl.Reset();
@@ -635,15 +646,4 @@ void TocLog::Reset()
     {
         block.Reset();
     }
-}
-void TocLog::LogKalmanPosition()
-{
-    bool found;
-    auto & result = STLUtils::ElementForName(_tocElements, "kalman.stateX", found);
-    _shared_impl.Log(result.id);
-    auto & result1 = STLUtils::ElementForName(_tocElements, "kalman.stateY", found);
-    _shared_impl.Log(result1.id);
-    auto & result2 = STLUtils::ElementForName(_tocElements, "kalman.stateZ", found);
-    _shared_impl.Log(result2.id);
-
 }

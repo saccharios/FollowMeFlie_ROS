@@ -53,13 +53,15 @@ public:
     bool RadioIsConnected() const;
 
     bool SendPacket(CRTPPacket packet); // Call when a packet is requested to send
-    void RegisterPacketToSend(CRTPPacket packet);
 
 public slots:
+    void RegisterPacketToSend(CRTPPacket packet);
     void SendPacketsNow();
     void ReceivePacket();
+
 signals:
     void RawPacketReady(CRTPPacket packet);
+
 private:
     libusb_context* _context;
     libusb_device* _devDevice;

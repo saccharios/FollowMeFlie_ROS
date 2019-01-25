@@ -130,6 +130,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QObject::connect(&_radioDongle, SIGNAL(RawPacketReady(CRTPPacket)) ,
                      &_packetHandler, SLOT(ReceiveRawPacket(CRTPPacket)));
+
+    QObject::connect(&_crazyFlie.GetLoggerTOC(), SIGNAL(SendPacket(CRTPPacket)) ,
+                     &_radioDongle, SLOT(RegisterPacketToSend(CRTPPacket)));
+
 }
 MainWindow::~MainWindow()
 {

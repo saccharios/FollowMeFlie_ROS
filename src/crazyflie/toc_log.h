@@ -67,12 +67,13 @@ public:
     void Reset();
 public slots:
     void ReceivePacket(CRTPPacket packet);
+signals:
+    void SendPacket(CRTPPacket packet);
 
 private:
     void EnableLogging(LoggingBlock  & block);
 //    void DisableLogging(LoggingBlock const & block);
 
-    RadioDongle & _radioDongle;
     unsigned int _itemCount;
     std::vector<TOCElement> _tocElements; // Contains all elements
     static constexpr unsigned int _numLogBlocks = 16u;

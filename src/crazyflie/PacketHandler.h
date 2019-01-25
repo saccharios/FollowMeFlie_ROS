@@ -14,7 +14,7 @@ public:
 public slots:
     void ReceiveRawPacket(CRTPPacket packet);
 signals:
-    void RawPacketReadToSend(CRTPPacket packet);
+    void RawPacketReadyToSend(CRTPPacket packet);
     void NewParameterPacket(CRTPPacket packet);
     void NewLoggerPacket(CRTPPacket packet);
 

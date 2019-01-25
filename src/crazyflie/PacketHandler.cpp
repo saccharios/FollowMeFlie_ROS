@@ -5,7 +5,7 @@
 
 void PacketHandler::RegisterPacketToSend(CRTPPacket packet)
 {
-    emit RawPacketReadToSend(packet);
+    emit RawPacketReadyToSend(packet);
 }
 
 void PacketHandler::ReceiveRawPacket(CRTPPacket packet)

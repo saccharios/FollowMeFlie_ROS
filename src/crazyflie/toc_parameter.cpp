@@ -22,7 +22,7 @@ void TocParameter::ReadElement(uint8_t  elementId)
    // textLogger << "Read Request Element ID =  " << static_cast<int>(elementId) << "\n";
     Data data ={elementId};
     CRTPPacket packet(Parameter::id, Parameter::Read::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(packet);
+    emit SendPacket(packet);
 }
 bool TocParameter::WriteValue( TOCElement & element, float float_value)
 {
@@ -119,7 +119,7 @@ bool TocParameter::WriteValue( TOCElement & element, float float_value)
     }
 
     CRTPPacket packet(Parameter::id, Parameter::Write::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(packet);
+    emit SendPacket(packet);
     return false;
 }
 

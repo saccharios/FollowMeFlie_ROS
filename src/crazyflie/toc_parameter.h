@@ -270,7 +270,6 @@ public:
 
 
     TocParameter(RadioDongle & radioDongle) :
-        _radioDongle(radioDongle),
       _itemCount(0),
       _elements(),
        _shared_impl(_itemCount, _elements, radioDongle ),
@@ -291,6 +290,7 @@ public:
 signals:
     void ParameterRead(uint8_t const &);
     void ParameterWriteFailed (TOCElement const &);
+    void SendPacket(CRTPPacket packet);
 
 public slots:
     void WriteParameter(uint8_t, float);
@@ -298,7 +298,6 @@ public slots:
     void WriteParametersPeriodically();
 
 private:
-    RadioDongle & _radioDongle;
     unsigned int _itemCount;
     std::vector<TOCElement> _elements;
     TOCShared<Parameter::id, Parameter::Access> _shared_impl;

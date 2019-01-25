@@ -435,56 +435,9 @@ void RadioDongle::ReceivePacket() // executed every 1ms
         CRTPPacket packet = CreatePacketFromData(buffer, bytesRead);
 
         // Process the packe and distribute to ports + channels
-        ProcessPacket(packet);
+        emit RawPacketReady(packet);
     }
 }
-
-void RadioDongle::ProcessPacket(CRTPPacket packet)
-{
-    // Dispatch incoming packet according to port and channel
-    switch(packet.GetPort() )
-    {
-    case Console::id:
-    {
-        if(packet.GetData().size() > 0)
-        {
-            textLogger << "Console text: ";
-            for(auto const & element : packet.GetData())
-            {
-                textLogger << static_cast<char>(element);
-            }
-            textLogger << "\n";
-        }
-        break;
-    }
-
-    case Logger::id:
-    {
-        emit NewLoggerPacket(packet);
-        break;
-    }
-
-    case Commander::id:
-//        std::cout << "Receiving from Commander not implemented\n";
-        break;
-    case CommanderGeneric::id:
-//        std::cout << "Receiving from CommanderGeneric not implemented\n";
-        break;
-    case Debug::id:
-//        std::cout << "Receiving from Debug not implemented\n";
-        break;
-    case Link::id:
-//        std::cout << "Receiving from Link not implemented\n";
-        break;
-    case Parameter::id:
-        emit NewParameterPacket(packet);
-        break;
-    default:
-//        std::cout << "Receiving random bullshit: " << packet << std::endl;
-        break;
-    }
-}
-
 
 std::ostream & operator<<(std::ostream& stream, CRTPPacket const & packet)
 {

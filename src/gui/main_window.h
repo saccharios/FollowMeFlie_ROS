@@ -10,6 +10,7 @@
 #include "imageprocess/extract_color.h"
 #include "crazyflie/crazy_flie_commander.h"
 #include <QTableView>
+#include <src/crazyflie/PacketHandler.h>
 #include "actual_values_model.h"
 #include "parameter_model.h"
 
@@ -60,6 +61,7 @@ private slots:
 
 private:
     RadioDongle _radioDongle;
+    PacketHandler _packetHandler;
     Crazyflie _crazyFlie;
 
     // GUI Windows and Widgets

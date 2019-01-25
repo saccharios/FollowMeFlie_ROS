@@ -54,15 +54,12 @@ public:
 
     bool SendPacket(CRTPPacket packet); // Call when a packet is requested to send
     void RegisterPacketToSend(CRTPPacket packet);
-    void ProcessPacket(CRTPPacket packet);
 
 public slots:
     void SendPacketsNow();
     void ReceivePacket();
 signals:
-    void NewParameterPacket(CRTPPacket packet);
-    void NewLoggerPacket(CRTPPacket packet);
-
+    void RawPacketReady(CRTPPacket packet);
 private:
     libusb_context* _context;
     libusb_device* _devDevice;

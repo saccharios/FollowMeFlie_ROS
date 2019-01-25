@@ -10,7 +10,7 @@ void PacketHandler::RegisterPacketToSend(CRTPPacket packet)
 
 void PacketHandler::ReceiveRawPacket(CRTPPacket packet)
 {
-
+    ProcessPacket(packet);
 }
 void PacketHandler::ProcessPacket(CRTPPacket packet)
 {

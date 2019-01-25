@@ -21,6 +21,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     _radioDongle(),
+    _packetHandler(),
     _crazyFlie(_radioDongle),
     ui(new Ui::MainWindow),
      _actualValuesTable(nullptr),
@@ -118,14 +119,17 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(&_parameterModel, SIGNAL( ParameterWrite(uint8_t, float)),
                      &_crazyFlie.GetParameterTOC(), SLOT( WriteParameter(uint8_t, float)));
 
-    QObject::connect(&_radioDongle, SIGNAL(NewParameterPacket(CRTPPacket)) ,
+    QObject::connect(&_packetHandler, SIGNAL(NewParameterPacket(CRTPPacket)) ,
                     &_crazyFlie.GetParameterTOC(), SLOT(ReceivePacket(CRTPPacket)));
 
-    QObject::connect(&_radioDongle, SIGNAL(NewLoggerPacket(CRTPPacket)) ,
+    QObject::connect(&_packetHandler, SIGNAL(NewLoggerPacket(CRTPPacket)) ,
                      &_crazyFlie.GetLoggerTOC(), SLOT(ReceivePacket(CRTPPacket)));
 
     QObject::connect(&_camera, SIGNAL(CameraIsRunning(bool)) ,
                      &_commander, SLOT(SetCameraIsRunning(bool)));
+
+    QObject::connect(&_radioDongle, SIGNAL(RawPacketReady(CRTPPacket)) ,
+                     &_packetHandler, SLOT(ReceiveRawPacket(CRTPPacket)));
 }
 MainWindow::~MainWindow()
 {

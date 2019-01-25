@@ -7,18 +7,17 @@ class PacketHandler :  public QObject
     Q_OBJECT
 public:
 
-    void RegisterPacketToSend(CRTPPacket packet);
-    void ProcessPacket(CRTPPacket packet);
-
 
 public slots:
     void ReceiveRawPacket(CRTPPacket packet);
+    void RegisterPacketToSend(CRTPPacket packet);
 signals:
     void RawPacketReadyToSend(CRTPPacket packet);
     void NewParameterPacket(CRTPPacket packet);
     void NewLoggerPacket(CRTPPacket packet);
 
 private:
+    void ProcessPacket(CRTPPacket packet);
 
 };
 

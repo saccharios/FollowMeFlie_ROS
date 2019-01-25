@@ -132,12 +132,14 @@ MainWindow::MainWindow(QWidget *parent) :
                      &_packetHandler, SLOT(ReceiveRawPacket(CRTPPacket)));
 
     QObject::connect(&_crazyFlie.GetLoggerTOC(), SIGNAL(SendPacket(CRTPPacket)) ,
-                     &_radioDongle, SLOT(RegisterPacketToSend(CRTPPacket)));
+                     &_packetHandler, SLOT(RegisterPacketToSend(CRTPPacket)));
 
     QObject::connect(&_crazyFlie.GetParameterTOC(), SIGNAL(SendPacket(CRTPPacket)) ,
-                     &_radioDongle, SLOT(RegisterPacketToSend(CRTPPacket)));
+                     &_packetHandler, SLOT(RegisterPacketToSend(CRTPPacket)));
 
     QObject::connect(&_crazyFlie, SIGNAL(SendPacket(CRTPPacket)) ,
+                     &_packetHandler, SLOT(RegisterPacketToSend(CRTPPacket)));
+    QObject::connect(&_packetHandler, SIGNAL(RawPacketReadyToSend(CRTPPacket)) ,
                      &_radioDongle, SLOT(RegisterPacketToSend(CRTPPacket)));
 
 }

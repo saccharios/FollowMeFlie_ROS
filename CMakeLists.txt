@@ -184,7 +184,7 @@ set(GUI_APP_SRCS
     src/gui/set_point_dialog.ui
     src/gui/table_model_base.cpp
     src/gui/tracking_color.cpp
-)
+        src/crazyflie/PacketHandler.cpp src/crazyflie/PacketHandler.h)
 add_executable(${PROJECT_NAME}_node ${GUI_APP_SRCS})
 
 ## Rename C++ executable without prefix

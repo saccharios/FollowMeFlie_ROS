@@ -125,3 +125,22 @@ T GetClosest(std::vector<T> const & elements)
 
 void PrintData(Data const & data);
 
+
+
+struct RawPacket
+{
+    static constexpr int maxBufferLength = 64;
+    std::array<uint8_t, maxBufferLength>  data;
+    int length;
+
+    RawPacket(std::array<uint8_t, maxBufferLength>  data, int length)
+    {
+        this->data = data;
+        this->length = length;
+    }
+    RawPacket() :
+        data(),
+        length(0)
+    {}
+
+};

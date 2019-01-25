@@ -53,8 +53,8 @@ public:
     bool RadioIsConnected() const;
 
     bool SendPacket(CRTPPacket packet); // Call when a packet is requested to send
-    void RegisterPacketToSend(CRTPPacket &&  packet);
-    void ProcessPacket(CRTPPacket && packet);
+    void RegisterPacketToSend(CRTPPacket packet);
+    void ProcessPacket(CRTPPacket packet);
 
 public slots:
     void SendPacketsNow();

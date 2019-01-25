@@ -409,7 +409,7 @@ bool RadioDongle::SendPacket(CRTPPacket packet)
     return WriteData(packet.SendableData(), packet.GetSendableDataLength());
 }
 
-void RadioDongle::RegisterPacketToSend(CRTPPacket && packet)
+void RadioDongle::RegisterPacketToSend(CRTPPacket packet)
 {
     _packetsToSend.push(packet);
 }
@@ -435,11 +435,11 @@ void RadioDongle::ReceivePacket() // executed every 1ms
         CRTPPacket packet = CreatePacketFromData(buffer, bytesRead);
 
         // Process the packe and distribute to ports + channels
-        ProcessPacket(std::move(packet));
+        ProcessPacket(packet);
     }
 }
 
-void RadioDongle::ProcessPacket(CRTPPacket && packet)
+void RadioDongle::ProcessPacket(CRTPPacket packet)
 {
     // Dispatch incoming packet according to port and channel
     switch(packet.GetPort() )

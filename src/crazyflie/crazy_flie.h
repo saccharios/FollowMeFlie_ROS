@@ -13,6 +13,7 @@
 #include "toc_log.h"
 #include "toc_parameter.h"
 #include "text_logger.h"
+#include "crtp_packet.h"
 
 enum class State
 {
@@ -134,6 +135,7 @@ public:
 signals:
     void ConnectionTimeout();
     void NotConnecting();
+    void SendPacket(CRTPPacket packet);
 
 public slots:
     void ReceiveBallEstimate(Point3f const &);

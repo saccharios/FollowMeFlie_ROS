@@ -205,7 +205,7 @@ void Crazyflie::SendSetpoint(SetPoint setPoint)
     CRTPPacket  packet(Commander::id, Commander::Setpoint::id, std::move(data));
     if(!_testModeEnabled)
     {
-        _radioDongle.RegisterPacketToSend(packet);
+        emit SendPacket(packet);
     }
 }
 
@@ -216,7 +216,7 @@ void Crazyflie::Stop()
     data.push_back(command);
 
     CRTPPacket  packet(CommanderGeneric::id, CommanderGeneric::Channel::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(packet);
+    emit SendPacket(packet);
 }
 
 void  Crazyflie::SendVelocityRef(Velocity velocity)
@@ -238,7 +238,7 @@ void  Crazyflie::SendVelocityRef(Velocity velocity)
 
     if(!_testModeEnabled)
     {
-        _radioDongle.RegisterPacketToSend(packet);
+        emit SendPacket(packet);
     }
 }
 
@@ -254,7 +254,7 @@ void  Crazyflie::SendActualPosition(Point3f position_act)
     CreatePayload(data, data_points);
 
     CRTPPacket packet(Localization::id, Localization::External_Position::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(packet);
+    emit SendPacket(packet);
 }
 
 void  Crazyflie::SendReferencePosition(Point3f position_ref)
@@ -268,7 +268,7 @@ void  Crazyflie::SendReferencePosition(Point3f position_ref)
     std::array<float,4> data_points{position_ref.x,position_ref.y,position_ref.z,yaw};
     CreatePayload(data, data_points);
     CRTPPacket  packet(CommanderGeneric::id, CommanderGeneric::Channel::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(packet);
+    emit SendPacket(packet);
 }
 
 void  Crazyflie::SendHover(float vx, float vy, float yawrate, float zDistance)
@@ -285,7 +285,7 @@ void  Crazyflie::SendHover(float vx, float vy, float yawrate, float zDistance)
     CreatePayload(data, data_points);
 
     CRTPPacket packet(CommanderGeneric::id, CommanderGeneric::Channel::id, std::move(data));
-    _radioDongle.RegisterPacketToSend(packet);
+    emit SendPacket(packet);
 }
 
 

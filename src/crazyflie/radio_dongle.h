@@ -52,7 +52,7 @@ public:
 
     bool RadioIsConnected() const;
 
-    bool SendPacket(CRTPPacket && packet); // Call when a packet is requested to send
+    bool SendPacket(CRTPPacket packet); // Call when a packet is requested to send
     void RegisterPacketToSend(CRTPPacket &&  packet);
     void ProcessPacket(CRTPPacket && packet);
 

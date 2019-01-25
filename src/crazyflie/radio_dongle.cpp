@@ -81,7 +81,7 @@ bool RadioDongle::OpenUSBDongle()
     CloseDevice();
     auto devices = ListDevices(0x1915, 0x7777);
 
-    if(devices.size() > 0)
+    if( !devices.empty())
     {
         // For now, just take the first device. Give it a second to
         // initialize the system permissions.
@@ -267,7 +267,7 @@ void RadioDongle::WriteDataRate(std::string dataRate)
 
 void RadioDongle::WriteARDTime(int ARDTime)
 { // in uSec
-    int T = int((ARDTime / 250) - 1);
+    auto T = static_cast<int>((ARDTime / 250) - 1);
     if(T < 0)
     {
         T = 0;
@@ -345,8 +345,8 @@ CRTPPacket RadioDongle::CreatePacketFromData( uint8_t* buffer, int totalLength)
 
     // Exctract port and channel information from buffer[1]
     // TODO SF Add Port and channel checking
-    uint8_t port = static_cast<uint8_t>((buffer[1] & 0xf0) >> 4);
-    uint8_t channel = static_cast<uint8_t>(buffer[1] & 0b00000011);
+    auto port = static_cast<uint8_t>((buffer[1] & 0xf0) >> 4);
+    auto channel = static_cast<uint8_t>(buffer[1] & 0b00000011);
 
     // Actual data starts at buffer[2]
     Data data;
@@ -389,19 +389,19 @@ void RadioDongle::SendPacketsNow()
     if(_packetsToSend.empty())
     {
         CRTPPacket ping_packet{Console::id, Console::Print::id, {static_cast<uint8_t>(0xff)}};
-        SendPacket(std::move(ping_packet));
+        SendPacket(ping_packet);
     }
     else
     {
         CRTPPacket packet = _packetsToSend.front();
         _packetsToSend.pop();
         //        packet.Print();
-        SendPacket(std::move(packet));
+        SendPacket(packet);
         //    textLogger << "Sending one packet, " << _packetsSending.size() << " left to send\n";
     }
 }
 
-bool RadioDongle::SendPacket(CRTPPacket  && packet)
+bool RadioDongle::SendPacket(CRTPPacket packet)
 {
     if(!_radioIsConnected)
         return false;

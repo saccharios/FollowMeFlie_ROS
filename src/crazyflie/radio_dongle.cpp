@@ -10,7 +10,6 @@ RadioDongle::RadioDongle() :
     _devDevice(nullptr),
     _device(nullptr),
     _deviceVersion(0.0f),
-    _ackReceived(false),
     _radioIsConnected(false),
     _packetsToSend()
 {
@@ -336,7 +335,8 @@ bool RadioDongle::ClaimInterface(int interface)
 CRTPPacket RadioDongle::CreatePacketFromData( uint8_t* buffer, int totalLength)
 {
     // Analyse status byte
-    _ackReceived = buffer[0] & 0x01;
+    bool ackReceived = buffer[0] & 0x01;
+    emit AckSignal(ackReceived);
     //bool bPowerDetector = cBuffer[0] & 0x2;
     //int nRetransmissions = cBuffer[0] & 0xf0;
 
@@ -359,15 +359,11 @@ CRTPPacket RadioDongle::CreatePacketFromData( uint8_t* buffer, int totalLength)
     return packet;
 }
 
-bool RadioDongle::AckReceived()
-{
-    return _ackReceived;
-}
-
-bool RadioDongle::IsUsbConnectionOk()
+void RadioDongle::IsUsbConnectionOk()
 {
     libusb_device_descriptor descriptor;
-    return (libusb_get_device_descriptor(_devDevice,	&descriptor) == 0);
+    bool ok = (libusb_get_device_descriptor(_devDevice, &descriptor) == 0);
+    emit USBOKSignal(ok);
 }
 
 bool RadioDongle::RadioIsConnected() const
@@ -390,6 +386,7 @@ void RadioDongle::SendPacketsNow()
     {
         CRTPPacket ping_packet{Console::id, Console::Print::id, {static_cast<uint8_t>(0xff)}};
         SendPacket(ping_packet);
+
     }
     else
     {
@@ -406,6 +403,7 @@ bool RadioDongle::SendPacket(CRTPPacket packet)
     if(!_radioIsConnected)
         return false;
 
+    IsUsbConnectionOk();
     return WriteData(packet.SendableData(), packet.GetSendableDataLength());
 }
 

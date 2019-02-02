@@ -142,6 +142,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(&_packetHandler, SIGNAL(RawPacketReadyToSend(CRTPPacket)) ,
                      &_radioDongle, SLOT(RegisterPacketToSend(CRTPPacket)));
 
+    QObject::connect(&_radioDongle, SIGNAL(AckSignal(bool)) ,
+                     &_packetHandler, SLOT(AckReceived(bool)));
+    QObject::connect(&_radioDongle, SIGNAL(USBOKSignal(bool)) ,
+                     &_packetHandler, SLOT(USBConnectionOK(bool)));
+
 }
 MainWindow::~MainWindow()
 {

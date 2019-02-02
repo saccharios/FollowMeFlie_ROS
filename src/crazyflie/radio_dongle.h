@@ -47,22 +47,22 @@ public:
     void WritePower(PowerSettings power);
 
 
-    bool AckReceived();
-    bool IsUsbConnectionOk();
-
     bool RadioIsConnected() const;
 
     bool SendPacket(CRTPPacket packet); // Call when a packet is requested to send
 
 public slots:
+
     void RegisterPacketToSend(CRTPPacket packet);
     void SendPacketsNow();
     void ReceivePacket();
-
 signals:
-    void RawPacketReady(CRTPPacket packet);
 
+    void RawPacketReady(CRTPPacket packet);
+    void AckSignal(bool ack);
+    void USBOKSignal(bool ok);
 private:
+
     libusb_context* _context;
     libusb_device* _devDevice;
     libusb_device_handle* _device;
@@ -76,25 +76,24 @@ private:
     uint8_t _address[addrLength];
     const bool _contCarrier = false;
     float _deviceVersion;
-    bool _ackReceived;
     bool _radioIsConnected;
-
-
     std::queue<CRTPPacket> _packetsToSend;
 
+
     void ReadRadioSettings();
+
     std::vector<libusb_device*> ListDevices(int vendorID, int productID);
     float ConvertToDeviceVersion(short number) const;
     bool OpenUSBDongle();
     bool ClaimInterface(int nInterface);
     void CloseDevice();
-
     CRTPPacket CreatePacketFromData( uint8_t* buffer, int totalLength);
 
     bool WriteData(uint8_t * data, int length);
-    bool ReadData(uint8_t* data, int maxLength, int & actualLength);
 
+    bool ReadData(uint8_t* data, int maxLength, int & actualLength);
     void WriteARC(int ARC);
+
     void WriteChannel(int channel);
     int GetChannel() const;
     std::string const & GetDataRate() const;
@@ -104,6 +103,7 @@ private:
     void WriteAddress(uint8_t* address);
     void WriteContCarrier(bool contCarrier);
     bool WriteRadioControl(uint8_t* data, int length, DongleConfiguration request, uint16_t value, uint16_t index);
+    void IsUsbConnectionOk();
 
 
 

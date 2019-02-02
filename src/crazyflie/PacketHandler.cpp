@@ -57,3 +57,22 @@ void PacketHandler::ProcessPacket(CRTPPacket packet)
             break;
     }
 }
+
+bool PacketHandler::AckReceived() const
+{
+    return _ackReceived;
+}
+
+bool PacketHandler::IsUsbConnectionOk() const
+{
+    return _isUsbConnectionOk;
+}
+
+void PacketHandler::AckReceived(bool ack)
+{
+    _ackReceived = ack;
+}
+void PacketHandler::USBConnectionOK(bool ok)
+{
+    _isUsbConnectionOk = ok;
+}

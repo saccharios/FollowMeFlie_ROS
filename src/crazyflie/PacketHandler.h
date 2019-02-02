@@ -6,19 +6,24 @@ class PacketHandler :  public QObject
 {
     Q_OBJECT
 public:
+    bool AckReceived() const;
+    bool IsUsbConnectionOk() const;
 
-
-public slots:
+    public slots:
     void ReceiveRawPacket(CRTPPacket packet);
     void RegisterPacketToSend(CRTPPacket packet);
+    void AckReceived(bool ack);
+    void USBConnectionOK(bool ok);
 signals:
     void RawPacketReadyToSend(CRTPPacket packet);
     void NewParameterPacket(CRTPPacket packet);
+
     void NewLoggerPacket(CRTPPacket packet);
 
 private:
     void ProcessPacket(CRTPPacket packet);
-
+    bool _ackReceived = false;
+    bool _isUsbConnectionOk = false;
 };
 
 

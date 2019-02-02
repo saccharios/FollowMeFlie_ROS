@@ -36,7 +36,7 @@ void Crazyflie::Update()
     {
         if(_startConnecting)
         {
-            if( !_radioDongle.IsUsbConnectionOk()) // Can't connect if dongle is not ready
+            if( !_packetHandler.IsUsbConnectionOk() ) // Can't connect if dongle is not ready
             {
                 _state = State::ZERO;
                 _startConnecting = false;
@@ -147,7 +147,7 @@ void Crazyflie::Update()
             _isSendingVelocityRef = false;
         }
 
-        if(_radioDongle.AckReceived())
+        if(_packetHandler.AckReceived())
         {
             _ackMissCounter = 0;
         }

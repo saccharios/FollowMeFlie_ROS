@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     _radioDongle(),
     _packetHandler(),
-    _crazyFlie(_radioDongle),
+    _crazyFlie(_packetHandler),
     ui(new Ui::MainWindow),
      _actualValuesTable(nullptr),
      _parameterTable(nullptr),

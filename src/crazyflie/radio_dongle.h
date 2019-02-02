@@ -52,10 +52,10 @@ public:
 
     bool RadioIsConnected() const;
 
-    bool SendPacket(CRTPPacket packet); // Call when a packet is requested to send
+    bool SendPacket(RawPacket packet); // Call when a packet is requested to send
 
 public slots:
-    void RegisterPacketToSend(CRTPPacket packet);
+    void RegisterPacketToSend(RawPacket packet);
     void SendPacketsNow();
     void ReceivePacket();
 
@@ -80,7 +80,7 @@ private:
     bool _radioIsConnected;
 
 
-    std::queue<CRTPPacket> _packetsToSend;
+    std::queue<RawPacket> _packetsToSend;
 
     void ReadRadioSettings();
     std::vector<libusb_device*> ListDevices(int vendorID, int productID);

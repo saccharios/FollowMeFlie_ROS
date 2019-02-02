@@ -393,7 +393,7 @@ void RadioDongle::SendPacketsNow()
     }
     else
     {
-        CRTPPacket packet = _packetsToSend.front();
+        RawPacket packet = _packetsToSend.front();
         _packetsToSend.pop();
         //        packet.Print();
         SendPacket(packet);
@@ -401,15 +401,25 @@ void RadioDongle::SendPacketsNow()
     }
 }
 
-bool RadioDongle::SendPacket(CRTPPacket packet)
+bool RadioDongle::SendPacket(RawPacket packet)
 {
     if(!_radioIsConnected)
         return false;
 
-    return WriteData(packet.SendableData(), packet.GetSendableDataLength());
+    // Convert std::array to raw array
+    uint8_t rawData[packet.length];
+    int i = 0;
+    for(auto const & element : packet.data)
+    {
+        rawData[i] = element;
+        ++i;
+    }
+
+
+    return WriteData(rawData, packet.length);
 }
 
-void RadioDongle::RegisterPacketToSend(CRTPPacket packet)
+void RadioDongle::RegisterPacketToSend(RawPacket packet)
 {
     _packetsToSend.push(packet);
 }

@@ -7,10 +7,10 @@
 #include "error_codes.h"
 #include "text_logger.h"
 
-TocLog::TocLog(RadioDongle & radioDongle) :
+TocLog::TocLog(PacketHandler & packetHandler) :
     _itemCount(0),
     _tocElements(),
-    _shared_impl(_itemCount, _tocElements, radioDongle )
+    _shared_impl(_itemCount, _tocElements, packetHandler )
 {
     // Setup logging blocks
     _loggingBlocks.at(0).name = "block_0";

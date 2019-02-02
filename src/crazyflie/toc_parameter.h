@@ -269,10 +269,10 @@ public:
     };
 
 
-    TocParameter(RadioDongle & radioDongle) :
+    TocParameter(PacketHandler & packetHandler) :
       _itemCount(0),
       _elements(),
-       _shared_impl(_itemCount, _elements, radioDongle ),
+       _shared_impl(_itemCount, _elements, packetHandler ),
        _lastReadParameter(-1)
     {}
 

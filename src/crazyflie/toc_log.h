@@ -1,10 +1,10 @@
 #pragma once
 #include "crtp_packet.h"
 #include "math/types.h"
-#include "radio_dongle.h"
 #include "toc_shared.h"
 #include "protocol.h"
 #include <QObject>
+#include "PacketHandler.h"
 class TocLog : public QObject
 {
     Q_OBJECT;
@@ -45,7 +45,7 @@ class TocLog : public QObject
     };
 
 public:
-    TocLog(RadioDongle & radioDongle);
+    TocLog(PacketHandler & packetHandler);
 
     bool Setup() {return _shared_impl.Setup();}
 

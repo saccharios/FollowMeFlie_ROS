@@ -1,12 +1,12 @@
 #pragma once
 #include "math/types.h"
-#include "radio_dongle.h"
 #include "crtp_packet.h"
 #include "stl_utils.h"
 #include "protocol.h"
 #include <map>
 #include "crazyflie/crtp_packet.h"
 #include "text_logger.h"
+#include "PacketHandler.h"
 
 template<uint8_t port, typename channel>
 class TOCShared
@@ -14,10 +14,10 @@ class TOCShared
 public:
     TOCShared(unsigned int & itemCount,
               std::vector<TOCElement> & elements,
-              RadioDongle & radioDongle) :
+              PacketHandler & packetHandler) :
         _itemCount(itemCount),
         _elements(elements),
-        _radioDongle(radioDongle),
+        _packetHandler(packetHandler),
         _setupIsDone(false)
     {}
 
@@ -46,7 +46,7 @@ public:
         {
             Data data = {channel::Commands::GetInfo::id};
             CRTPPacket packet(port, channel::id, std::move(data));
-            _radioDongle.RegisterPacketToSend(packet);
+            _packetHandler.RegisterPacketToSend(packet);
         }
         return (_itemCount > 0);
     }
@@ -70,7 +70,7 @@ public:
     {
         Data data = {channel::Commands::GetItem::id,id};
         CRTPPacket  packet(port, channel::id, std::move(data));
-        _radioDongle.RegisterPacketToSend(packet);
+        _packetHandler.RegisterPacketToSend(packet);
     }
 
 
@@ -259,6 +259,6 @@ private:
 
     unsigned int & _itemCount;
     std::vector<TOCElement> & _elements;
-    RadioDongle & _radioDongle;
     bool _setupIsDone;
+    PacketHandler & _packetHandler;
 };

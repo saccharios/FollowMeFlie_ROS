@@ -93,7 +93,7 @@ class Crazyflie : public QObject
 public:
 
 
-    Crazyflie(RadioDongle & _radioDongle);
+    Crazyflie(PacketHandler & packetHandler);
     ~Crazyflie();
 
     void SetSetPoint(SetPoint setPoint);
@@ -140,7 +140,7 @@ signals:
 public slots:
     void ReceiveBallEstimate(Point3f const &);
 private:
-    RadioDongle & _radioDongle;
+    PacketHandler & _packetHandler;
 
     int _ackMissTolerance;
     int _ackMissCounter;

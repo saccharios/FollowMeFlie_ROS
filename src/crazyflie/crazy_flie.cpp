@@ -5,8 +5,8 @@
 #include "math/functions.h"
 #include "protocol.h"
 
-Crazyflie::Crazyflie(RadioDongle & radioDongle) :
-    _radioDongle(radioDongle),
+Crazyflie::Crazyflie(PacketHandler & packetHandler) :
+    _packetHandler(packetHandler),
     _ackMissTolerance(100),
     _ackMissCounter(0),
     _sendSetPoint(),
@@ -16,8 +16,8 @@ Crazyflie::Crazyflie(RadioDongle & radioDongle) :
     _disconnect(false),
     _startConnecting(false),
     _state (State::ZERO),
-    _parameters(_radioDongle),
-    _logger(_radioDongle),
+    _parameters(packetHandler),
+    _logger(packetHandler),
     _leaveConnectingState(),
     _sensorValues()
 {}

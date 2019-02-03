@@ -8,7 +8,7 @@ class RawPacket
 public:
     static constexpr int maxBufferLength = 64;
     std::array<uint8_t, maxBufferLength> _data;
-    int _length;
+    uint8_t _length;
 
     RawPacket(CRTPPacket packet)
     {
@@ -17,7 +17,7 @@ public:
         _length = packet.GetSendableDataLength();
     }
 
-    RawPacket(uint8_t data[maxBufferLength] , int length)
+    RawPacket(uint8_t data[maxBufferLength] , uint8_t length)
     {
         copy(data,0);
         _length = length;

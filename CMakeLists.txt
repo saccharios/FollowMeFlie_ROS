@@ -191,7 +191,11 @@ add_executable(${PROJECT_NAME}_node ${GUI_APP_SRCS})
 
 add_executable(radio_dongle_node
         src/dongle_node/RadioDongleNode.cpp
-        src/dongle_node/RadioDongleNodeMain.cpp)
+        src/dongle_node/RadioDongleNodeMain.cpp
+        src/crazyflie/raw_packet.cpp
+        src/crazyflie/crtp_packet.cpp
+        src/math/types.cpp
+        src/text_logger.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

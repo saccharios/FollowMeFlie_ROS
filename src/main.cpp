@@ -1,6 +1,12 @@
 #include "gui/main_window.h"
 #include <QApplication>
 #include <ros/ros.h>
+#include "thread"
+
+void run_ros()
+{
+    ros::spin();
+}
 
 int main(int argc, char *argv[])
 {
@@ -11,6 +17,9 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     MainWindow w;
     w.show();
+
+    std::thread t(run_ros);
+
     return app.exec();
 }
 

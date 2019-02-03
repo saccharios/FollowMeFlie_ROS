@@ -79,6 +79,15 @@ void CRTPPacket::Print() const
 }
 
 
+std::ostream & operator << (std::ostream& stream, CRTPPacket const & packet)
+{
+    stream    << "Port = " << static_cast<int>(packet.GetPort())
+              << " Channel = "  << static_cast<int>(packet.GetChannel())
+              << " Size = " << packet.GetData().size()
+              << "\n";
+    stream << packet.GetData();
+    return stream;
+}
 
 
 

@@ -71,4 +71,6 @@ private:
 
 };
 
+std::ostream & operator << (std::ostream& stream, CRTPPacket const & packet);
+
 

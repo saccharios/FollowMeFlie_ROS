@@ -3,10 +3,21 @@
 #include "math/types.h"
 #include "crazyflie/protocol.h"
 #include "raw_packet.h"
+
+#include "ros/ros.h"
+#include "follow_me_flie_ros/RawPacket.h"
 void PacketHandler::RegisterPacketToSend(CRTPPacket packet)
 {
     RawPacket rawPacket(packet);
     emit RawPacketReadyToSend(rawPacket);
+
+    follow_me_flie_ros::RawPacket msg;
+    for (int i = 0; i < rawPacket._length; ++i)
+    {
+        msg.data[i] = rawPacket._data.at(i);
+    }
+    msg.length = rawPacket._length;
+    _pub.publish(msg);
 }
 
 void PacketHandler::ReceiveRawPacket(RawPacket rawPacket)

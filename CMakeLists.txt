@@ -189,6 +189,10 @@ set(GUI_APP_SRCS
         src/crazyflie/PacketHandler.cpp src/crazyflie/PacketHandler.h)
 add_executable(${PROJECT_NAME}_node ${GUI_APP_SRCS})
 
+add_executable(radio_dongle_node
+        src/dongle_node/RadioDongleNode.cpp
+        src/dongle_node/RadioDongleNodeMain.cpp)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -207,6 +211,10 @@ target_link_libraries(${PROJECT_NAME}_node
    Qt5::Widgets
    ${PROJECT_NAME}_lib
    ${OpenCV_LIBRARIES}
+)
+target_link_libraries(radio_dongle_node
+   ${catkin_LIBRARIES}
+   Qt5::Widgets
 )
 
 #############

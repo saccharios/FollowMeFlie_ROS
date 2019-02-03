@@ -432,8 +432,8 @@ void RadioDongle::ReceivePacket() // executed every 1ms
         // Convert the raw data to a packet
         CRTPPacket packet = CreatePacketFromData(buffer, bytesRead);
 
-        RawPacket rawPacket(packet);
-//        RawPacket rawPacket(buffer, bytesRead);
+//        RawPacket rawPacket(packet);
+        RawPacket rawPacket(buffer, bytesRead);
         CRTPPacket pp(rawPacket);
 
         std::cout << packet;

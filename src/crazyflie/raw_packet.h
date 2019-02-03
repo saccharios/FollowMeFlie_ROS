@@ -13,13 +13,13 @@ public:
     RawPacket(CRTPPacket packet)
     {
         _data.at(0) = 1;
-        copy(packet.SendableData());
+        copy(packet.SendableData(), 1);
         _length = packet.GetSendableDataLength();
     }
 
     RawPacket(uint8_t data[maxBufferLength] , int length)
     {
-        copy(data);
+        copy(data,0);
         _length = length;
     }
     RawPacket() :
@@ -27,11 +27,11 @@ public:
         _length(0)
     {}
 
-    void copy(uint8_t const * const src)
+    void copy(uint8_t const * const src, int offset)
     {
-        for (int i = 0; i < maxBufferLength-1; ++i)
+        for (int i = 0; i < maxBufferLength-offset; ++i)
         {
-            _data.at(i+1) = src[i];
+            _data.at(i+offset) = src[i];
         }
     }
 

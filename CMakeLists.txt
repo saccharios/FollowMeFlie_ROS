@@ -162,7 +162,8 @@ add_library(${PROJECT_NAME}_lib
   src/imageprocess/camera.cpp
   src/imageprocess/coordinate_conversions.cpp
   src/imageprocess/extract_color.cpp
-)
+  src/crazyflie/PacketHandler.cpp
+  )
 target_link_libraries(${PROJECT_NAME}_lib
     ${qt5_components}
 )
@@ -185,8 +186,7 @@ set(GUI_APP_SRCS
     src/gui/set_point_dialog.cpp
     src/gui/set_point_dialog.ui
     src/gui/table_model_base.cpp
-    src/gui/tracking_color.cpp
-        src/crazyflie/PacketHandler.cpp src/crazyflie/PacketHandler.h)
+    src/gui/tracking_color.cpp)
 add_executable(${PROJECT_NAME}_node ${GUI_APP_SRCS})
 
 add_executable(radio_dongle_node

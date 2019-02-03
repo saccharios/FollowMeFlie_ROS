@@ -130,27 +130,31 @@ void PrintData(Data const & data);
 struct RawPacket
 {
     static constexpr int maxBufferLength = 64;
-    uint8_t data[maxBufferLength];
-    int length;
+    std::array<uint8_t, maxBufferLength> _data;
+    int _length;
 
     RawPacket(uint8_t data[maxBufferLength] , int length)
     {
-        copy<maxBufferLength>(data, this->data);
-        this->length = length;
+        copy(data);
+        this->_length = length;
     }
     RawPacket() :
-        data(),
-        length(0)
+        _data(),
+        _length(0)
     {}
 
-    template<int N>
-    void copy(uint8_t const * const src, uint8_t * dest)
+    void copy(uint8_t const * const src)
     {
-        for (int i = 0; i < N; ++i)
+        for (int i = 0; i < maxBufferLength; ++i)
         {
-            dest[i] = src[i];
+            _data.at(i) = src[i];
         }
     }
 
 };
+
+std::ostream & operator << (std::ostream& stream, RawPacket const & packet);
+
+
+
 

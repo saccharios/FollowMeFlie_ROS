@@ -85,7 +85,7 @@ std::ostream & operator << (std::ostream& stream, CRTPPacket const & packet)
               << " Channel = "  << static_cast<int>(packet.GetChannel())
               << " Size = " << packet.GetData().size()
               << "\n";
-    stream << packet.GetData();
+    stream << packet.GetData() << "\n";;
     return stream;
 }
 

@@ -33,3 +33,13 @@ Point3f operator-(Point3f const & a, Point3f const & b)
     c.z = a.z - b.z;
     return c;
 }
+
+std::ostream & operator << (std::ostream& stream, RawPacket const & packet)
+{
+    for (int i = 0; i < packet._length; ++i)
+    {
+        stream << static_cast<int>(packet._data.at(i)) << " ";
+    }
+    stream << "\n";
+    return stream;
+}

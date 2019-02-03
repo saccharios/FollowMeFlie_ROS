@@ -436,10 +436,6 @@ void RadioDongle::ReceivePacket() // executed every 1ms
         RawPacket rawPacket(buffer, bytesRead);
         CRTPPacket pp(rawPacket);
 
-        std::cout << packet;
-        std::cout << rawPacket;
-        std::cout << pp;
-        std::cout << ".--------------------------------------------------------\n";
 
         // Process the packe and distribute to ports + channels
         emit RawPacketReady(packet);

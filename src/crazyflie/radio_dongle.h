@@ -5,6 +5,7 @@
 #include <QObject>
 #include "math/double_buffer.h"
 #include <queue>
+#include "raw_packet.h"
 
 class RadioDongle :  public QObject
 {
@@ -58,7 +59,7 @@ public slots:
     void ReceivePacket();
 signals:
 
-    void RawPacketReady(CRTPPacket packet);
+    void RawPacketReady(RawPacket rawPacket);
     void AckSignal(bool ack);
     void USBOKSignal(bool ok);
 private:

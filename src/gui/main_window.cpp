@@ -17,7 +17,7 @@
 #include "text_logger.h"
 #include "set_point_dialog.h"
 #include "crazyflie/crazy_flie_commander.h"
-
+#include "crazyflie/raw_packet.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     _radioDongle(),
@@ -128,8 +128,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(&_camera, SIGNAL(CameraIsRunning(bool)) ,
                      &_commander, SLOT(SetCameraIsRunning(bool)));
 
-    QObject::connect(&_radioDongle, SIGNAL(RawPacketReady(CRTPPacket)) ,
-                     &_packetHandler, SLOT(ReceiveRawPacket(CRTPPacket)));
+    QObject::connect(&_radioDongle, SIGNAL(RawPacketReady(RawPacket)) ,
+                     &_packetHandler, SLOT(ReceiveRawPacket(RawPacket)));
 
     QObject::connect(&_crazyFlie.GetLoggerTOC(), SIGNAL(SendPacket(CRTPPacket)) ,
                      &_packetHandler, SLOT(RegisterPacketToSend(CRTPPacket)));

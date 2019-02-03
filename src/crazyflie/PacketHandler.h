@@ -1,7 +1,7 @@
 #pragma  once
 #include <QObject>
 #include "crtp_packet.h"
-
+#include "raw_packet.h"
 class PacketHandler :  public QObject
 {
     Q_OBJECT
@@ -10,7 +10,7 @@ public:
     bool IsUsbConnectionOk() const;
 
     public slots:
-    void ReceiveRawPacket(CRTPPacket packet);
+    void ReceiveRawPacket(RawPacket rawPacket);
     void RegisterPacketToSend(CRTPPacket packet);
     void AckReceived(bool ack);
     void USBConnectionOK(bool ok);

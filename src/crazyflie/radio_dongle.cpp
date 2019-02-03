@@ -430,14 +430,10 @@ void RadioDongle::ReceivePacket() // executed every 1ms
     if(bytesRead > 0)
     {
         // Convert the raw data to a packet
-        CRTPPacket packet = CreatePacketFromData(buffer, bytesRead);
-
-//        RawPacket rawPacket(packet);
         RawPacket rawPacket(buffer, bytesRead);
-        CRTPPacket pp(rawPacket);
 
 
         // Process the packe and distribute to ports + channels
-        emit RawPacketReady(packet);
+        emit RawPacketReady(rawPacket);
     }
 }

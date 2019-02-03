@@ -2,14 +2,15 @@
 #include "text_logger.h"
 #include "math/types.h"
 #include "crazyflie/protocol.h"
-
+#include "raw_packet.h"
 void PacketHandler::RegisterPacketToSend(CRTPPacket packet)
 {
     emit RawPacketReadyToSend(packet);
 }
 
-void PacketHandler::ReceiveRawPacket(CRTPPacket packet)
+void PacketHandler::ReceiveRawPacket(RawPacket rawPacket)
 {
+    CRTPPacket packet(rawPacket);
     ProcessPacket(packet);
 }
 void PacketHandler::ProcessPacket(CRTPPacket packet)

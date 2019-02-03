@@ -9,10 +9,9 @@ public:
     bool AckReceived() const;
     bool IsUsbConnectionOk() const;
 
-    public slots:
+public slots:
     void ReceiveRawPacket(RawPacket rawPacket);
     void RegisterPacketToSend(CRTPPacket packet);
-    void AckReceived(bool ack);
     void USBConnectionOK(bool ok);
 signals:
     void RawPacketReadyToSend(CRTPPacket packet);

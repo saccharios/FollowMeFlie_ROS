@@ -60,7 +60,6 @@ public slots:
 signals:
 
     void RawPacketReady(RawPacket rawPacket);
-    void AckSignal(bool ack);
     void USBOKSignal(bool ok);
 private:
 

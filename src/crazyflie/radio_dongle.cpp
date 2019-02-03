@@ -336,7 +336,6 @@ CRTPPacket RadioDongle::CreatePacketFromData( uint8_t* buffer, int totalLength)
 {
     // Analyse status byte
     bool ackReceived = buffer[0] & 0x01;
-    emit AckSignal(ackReceived);
     //bool bPowerDetector = cBuffer[0] & 0x2;
     //int nRetransmissions = cBuffer[0] & 0xf0;
 

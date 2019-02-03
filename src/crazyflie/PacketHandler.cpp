@@ -10,6 +10,8 @@ void PacketHandler::RegisterPacketToSend(CRTPPacket packet)
 
 void PacketHandler::ReceiveRawPacket(RawPacket rawPacket)
 {
+
+    _ackReceived = rawPacket._data.at(0) & 0x01;
     CRTPPacket packet(rawPacket);
     ProcessPacket(packet);
 }
@@ -72,10 +74,6 @@ bool PacketHandler::IsUsbConnectionOk() const
     return _isUsbConnectionOk;
 }
 
-void PacketHandler::AckReceived(bool ack)
-{
-    _ackReceived = ack;
-}
 void PacketHandler::USBConnectionOK(bool ok)
 {
     _isUsbConnectionOk = ok;

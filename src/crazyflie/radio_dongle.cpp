@@ -436,11 +436,3 @@ void RadioDongle::ReceivePacket() // executed every 1ms
         emit RawPacketReady(packet);
     }
 }
-
-std::ostream & operator<<(std::ostream& stream, CRTPPacket const & packet)
-{
-    stream << "Port = " << static_cast<int>(packet.GetPort())
-           << " Channel = " <<  static_cast<int>(packet.GetChannel())
-           << " Data = " << packet.GetData();
-    return stream;
-}

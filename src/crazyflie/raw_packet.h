@@ -12,6 +12,7 @@ public:
 
     RawPacket(CRTPPacket packet)
     {
+        _data.at(0) = 1;
         copy(packet.SendableData());
         _length = packet.GetSendableDataLength();
     }
@@ -28,9 +29,9 @@ public:
 
     void copy(uint8_t const * const src)
     {
-        for (int i = 0; i < maxBufferLength; ++i)
+        for (int i = 0; i < maxBufferLength-1; ++i)
         {
-            _data.at(i) = src[i];
+            _data.at(i+1) = src[i];
         }
     }
 

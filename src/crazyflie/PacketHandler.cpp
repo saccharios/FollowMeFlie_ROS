@@ -5,7 +5,8 @@
 #include "raw_packet.h"
 void PacketHandler::RegisterPacketToSend(CRTPPacket packet)
 {
-    emit RawPacketReadyToSend(packet);
+    RawPacket rawPacket(packet);
+    emit RawPacketReadyToSend(rawPacket);
 }
 
 void PacketHandler::ReceiveRawPacket(RawPacket rawPacket)

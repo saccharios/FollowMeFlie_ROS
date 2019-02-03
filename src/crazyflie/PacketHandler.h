@@ -14,7 +14,7 @@ public slots:
     void RegisterPacketToSend(CRTPPacket packet);
     void USBConnectionOK(bool ok);
 signals:
-    void RawPacketReadyToSend(CRTPPacket packet);
+    void RawPacketReadyToSend(RawPacket rawPacket);
     void NewParameterPacket(CRTPPacket packet);
 
     void NewLoggerPacket(CRTPPacket packet);

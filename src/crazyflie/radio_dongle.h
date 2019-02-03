@@ -46,7 +46,7 @@ public:
     bool RadioIsConnected() const;
 
 public slots:
-    void RegisterPacketToSend(CRTPPacket packet);
+    void RegisterPacketToSend(RawPacket rawPacket);
     void SendPacketsNow();
     void ReceivePacket();
 

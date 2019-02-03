@@ -380,8 +380,9 @@ bool RadioDongle::SendPacket(CRTPPacket packet)
     return WriteData(packet.SendableData(), packet.GetSendableDataLength());
 }
 
-void RadioDongle::RegisterPacketToSend(CRTPPacket packet)
+void RadioDongle::RegisterPacketToSend(RawPacket rawPacket)
 {
+    CRTPPacket packet(rawPacket);
     _packetsToSend.push(packet);
 }
 

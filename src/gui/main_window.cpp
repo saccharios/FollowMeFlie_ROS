@@ -139,8 +139,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QObject::connect(&_crazyFlie, SIGNAL(SendPacket(CRTPPacket)) ,
                      &_packetHandler, SLOT(RegisterPacketToSend(CRTPPacket)));
-    QObject::connect(&_packetHandler, SIGNAL(RawPacketReadyToSend(CRTPPacket)) ,
-                     &_radioDongle, SLOT(RegisterPacketToSend(CRTPPacket)));
+    QObject::connect(&_packetHandler, SIGNAL(RawPacketReadyToSend(RawPacket)) ,
+                     &_radioDongle, SLOT(RegisterPacketToSend(RawPacket)));
 
     QObject::connect(&_radioDongle, SIGNAL(USBOKSignal(bool)) ,
                      &_packetHandler, SLOT(USBConnectionOK(bool)));

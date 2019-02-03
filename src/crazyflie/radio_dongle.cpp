@@ -284,7 +284,7 @@ void RadioDongle::WriteARDBytes(int ARDBytes)
     WriteRadioControl(nullptr, 0, DongleConfiguration::SET_RADIO_ARD, 0x80 | ARDBytes, 0);
 }
 
-RadioDongle::PowerSettings RadioDongle::Power()
+RadioDongle::PowerSettings RadioDongle::GetPower()
 {
     return _power;
 }
@@ -331,32 +331,6 @@ bool RadioDongle::ClaimInterface(int interface)
     return false;
 }
 
-
-CRTPPacket RadioDongle::CreatePacketFromData( uint8_t* buffer, int totalLength)
-{
-    // Analyse status byte
-    bool ackReceived = buffer[0] & 0x01;
-    //bool bPowerDetector = cBuffer[0] & 0x2;
-    //int nRetransmissions = cBuffer[0] & 0xf0;
-
-    // TODO SF: Do internal stuff with the data received here
-    // (store current link quality, etc.). For now, ignore it.
-
-    // Exctract port and channel information from buffer[1]
-    // TODO SF Add Port and channel checking
-    auto port = static_cast<uint8_t>((buffer[1] & 0xf0) >> 4);
-    auto channel = static_cast<uint8_t>(buffer[1] & 0b00000011);
-
-    // Actual data starts at buffer[2]
-    Data data;
-//    textLogger << "totalLength = " << totalLength << "\n";
-    for(int i = 2; i < totalLength+1; ++i)
-    {
-        data.push_back(buffer[i]);
-    }
-    CRTPPacket packet(port, channel, std::move(data));
-    return packet;
-}
 
 void RadioDongle::IsUsbConnectionOk()
 {

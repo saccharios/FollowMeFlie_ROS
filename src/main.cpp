@@ -1,14 +1,6 @@
 #include "gui/main_window.h"
 #include <QApplication>
-
 #include <ros/ros.h>
-#include <QtMultimedia>
-#include <QtMultimediaWidgets>
-#include <QDebug>
-#include <memory>
-#include "crazyflie/crazy_flie.h"
-
-#include "text_logger.h"
 
 int main(int argc, char *argv[])
 {

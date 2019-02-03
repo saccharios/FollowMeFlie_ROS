@@ -19,7 +19,7 @@ void PacketHandler::ProcessPacket(CRTPPacket packet)
     {
         case Console::id:
         {
-            std::cout << packet;
+//            std::cout << packet;
             if(packet.GetData().size() > 0)
             {
                 textLogger << "Console text: ";
@@ -34,7 +34,7 @@ void PacketHandler::ProcessPacket(CRTPPacket packet)
 
         case Logger::id:
         {
-            std::cout << packet;
+//            std::cout << packet;
             emit NewLoggerPacket(packet);
             break;
         }
@@ -52,7 +52,7 @@ void PacketHandler::ProcessPacket(CRTPPacket packet)
 //        std::cout << "Receiving from Link not implemented\n";
             break;
         case Parameter::id:
-            std::cout << packet;
+//            std::cout << packet;
             emit NewParameterPacket(packet);
             break;
         default:

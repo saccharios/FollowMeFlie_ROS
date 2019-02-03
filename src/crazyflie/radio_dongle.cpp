@@ -3,7 +3,7 @@
 #include "math/types.h"
 #include "crazyflie/protocol.h"
 #include "text_logger.h"
-#include <libusb-1.0/libusb.h>
+#include "raw_packet.h"
 
 RadioDongle::RadioDongle() :
     _context(nullptr),
@@ -433,7 +433,7 @@ void RadioDongle::ReceivePacket() // executed every 1ms
         CRTPPacket packet = CreatePacketFromData(buffer, bytesRead);
 
         RawPacket rawPacket(buffer, bytesRead);
-        std::cout << rawPacket;
+        CRTPPacket pp(rawPacket);
 
         // Process the packe and distribute to ports + channels
         emit RawPacketReady(packet);

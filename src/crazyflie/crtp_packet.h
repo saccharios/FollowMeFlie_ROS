@@ -43,12 +43,15 @@ T ExtractData(Data const & data, int offset)
 }
 template<>
 float ExtractData<float>(Data const & data, int offset);
-
+class RawPacket;
 
 class CRTPPacket
 {
 public:
+    CRTPPacket(RawPacket rawPacket);
+    CRTPPacket(std::array<uint8_t, 64> buffer, int totalLength);
     CRTPPacket(uint8_t port, uint8_t channel, Data && data) ;
+
 
     Data const & GetData() const;
 

@@ -1,5 +1,6 @@
 #include "types.h"
 #include "text_logger.h"
+#include "src/crazyflie/raw_packet.h"
 
 void PrintData(Data const & data)
 {
@@ -34,12 +35,4 @@ Point3f operator-(Point3f const & a, Point3f const & b)
     return c;
 }
 
-std::ostream & operator << (std::ostream& stream, RawPacket const & packet)
-{
-    for (int i = 0; i < packet._length; ++i)
-    {
-        stream << static_cast<int>(packet._data.at(i)) << " ";
-    }
-    stream << "\n";
-    return stream;
-}
+

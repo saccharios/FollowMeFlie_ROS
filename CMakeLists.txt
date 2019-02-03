@@ -154,6 +154,7 @@ add_library(${PROJECT_NAME}_lib
   src/crazyflie/radio_dongle.cpp
   src/crazyflie/toc_log.cpp
   src/crazyflie/toc_parameter.cpp
+  src/crazyflie/raw_packet.cpp
   src/qt_util.cpp
   src/opencv_utils.cpp
   src/imageprocess/ball_kalman_filter_2d.cpp

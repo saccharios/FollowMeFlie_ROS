@@ -1,6 +1,5 @@
 #pragma once
 #include </usr/include/eigen3/Eigen/Core>
-//#include "crazyflie/crtp_packet.h"
 #include <vector>
 #include <memory>
 #include <stdint.h>
@@ -126,34 +125,6 @@ T GetClosest(std::vector<T> const & elements)
 void PrintData(Data const & data);
 
 
-
-struct RawPacket
-{
-    static constexpr int maxBufferLength = 64;
-    std::array<uint8_t, maxBufferLength> _data;
-    int _length;
-
-    RawPacket(uint8_t data[maxBufferLength] , int length)
-    {
-        copy(data);
-        this->_length = length;
-    }
-    RawPacket() :
-        _data(),
-        _length(0)
-    {}
-
-    void copy(uint8_t const * const src)
-    {
-        for (int i = 0; i < maxBufferLength; ++i)
-        {
-            _data.at(i) = src[i];
-        }
-    }
-
-};
-
-std::ostream & operator << (std::ostream& stream, RawPacket const & packet);
 
 
 

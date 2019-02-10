@@ -60,7 +60,6 @@ private slots:
     void on_pushButton_disableTestMode_clicked();
 
 private:
-    RadioDongle _radioDongle;
     PacketHandler _packetHandler;
     Crazyflie _crazyFlie;
 
@@ -77,7 +76,6 @@ private:
     QTimer _timer_t1;
     QTimer _timer_t2;
     QTimer _timer_t3;
-    QTimer _timer_sr;
 
     // Function related
     CameraViewPainter _cameraViewPainter;

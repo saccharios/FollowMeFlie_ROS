@@ -26,7 +26,6 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    _radioDongle(),
     _packetHandler(),
     _crazyFlie(_packetHandler),
     ui(new Ui::MainWindow),
@@ -38,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent) :
     _timer_t1(),
     _timer_t2(),
     _timer_t3(),
-    _timer_sr(),
     _cameraViewPainter(_crazyFlie.GetSensorValues().stabilizer.roll,
                        _crazyFlie.GetSensorValues().stabilizer.yaw,
                        _crazyFlie.GetSensorValues().stabilizer.pitch),
@@ -74,14 +72,6 @@ MainWindow::MainWindow(QWidget *parent) :
     _timer_t3.start(update200msSamplingtime); // time in ms
     QObject::connect(&_timer_t3, SIGNAL(timeout()),
                      &_crazyFlie.GetParameterTOC(), SLOT(WriteParametersPeriodically()));
-
-    // Send and Receive packets
-    _timer_sr.start(sendReceiveSamplingTime);
-   QObject::connect(&_timer_sr, SIGNAL(timeout()),
-                    &_radioDongle, SLOT(SendPacketsNow()));
-   QObject::connect(&_timer_sr, SIGNAL(timeout()),
-                    &_radioDongle, SLOT(ReceivePacket()));
-
 
     // Custom widgets
     ui->Layout_CameraView->addWidget(&_cameraViewPainter);
@@ -135,9 +125,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(&_camera, SIGNAL(CameraIsRunning(bool)) ,
                      &_commander, SLOT(SetCameraIsRunning(bool)));
 
-    QObject::connect(&_radioDongle, SIGNAL(RawPacketReady(RawPacket)) ,
-                     &_packetHandler, SLOT(ReceiveRawPacket(RawPacket)));
-
     QObject::connect(&_crazyFlie.GetLoggerTOC(), SIGNAL(SendPacket(CRTPPacket)) ,
                      &_packetHandler, SLOT(RegisterPacketToSend(CRTPPacket)));
 
@@ -146,12 +133,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QObject::connect(&_crazyFlie, SIGNAL(SendPacket(CRTPPacket)) ,
                      &_packetHandler, SLOT(RegisterPacketToSend(CRTPPacket)));
-
-    QObject::connect(&_packetHandler, SIGNAL(RawPacketReadyToSend(RawPacket)) ,
-                     &_radioDongle, SLOT(RegisterPacketToSend(RawPacket)));
-
-    QObject::connect(&_radioDongle, SIGNAL(USBOKSignal(bool)) ,
-                     &_packetHandler, SLOT(USBConnectionOK(bool)));
 
     _clientStartRadio = _nh.serviceClient<follow_me_flie_ros::StartRadio>(RosService::StartRadio);
     _clientStopRadio = _nh.serviceClient<follow_me_flie_ros::StopRadio>(RosService::StopRadio);

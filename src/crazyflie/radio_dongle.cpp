@@ -4,6 +4,7 @@
 #include "crazyflie/protocol.h"
 #include "text_logger.h"
 #include "raw_packet.h"
+#include <libusb-1.0/libusb.h>
 
 RadioDongle::RadioDongle() :
     _context(nullptr),

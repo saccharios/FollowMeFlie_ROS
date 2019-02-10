@@ -74,11 +74,10 @@ add_message_files(
 )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  StartRadio.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -195,7 +194,8 @@ add_executable(radio_dongle_node
         src/crazyflie/raw_packet.cpp
         src/crazyflie/crtp_packet.cpp
         src/math/types.cpp
-        src/text_logger.cpp)
+        src/text_logger.cpp
+        src/crazyflie/radio_dongle.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -211,14 +211,16 @@ add_executable(radio_dongle_node
 find_package(OpenCV 3 CONFIG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME}_node
-   ${catkin_LIBRARIES}
-   Qt5::Widgets
-   ${PROJECT_NAME}_lib
-   ${OpenCV_LIBRARIES}
+        ${catkin_LIBRARIES}
+        Qt5::Widgets
+        ${PROJECT_NAME}_lib
+        ${OpenCV_LIBRARIES}
+        usb-1.0
 )
 target_link_libraries(radio_dongle_node
-   ${catkin_LIBRARIES}
-   Qt5::Widgets
+        ${catkin_LIBRARIES}
+        Qt5::Widgets
+        usb-1.0
 )
 
 #############

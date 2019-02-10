@@ -1,9 +1,11 @@
 #pragma once
+
 #include "crazyflie/radio_dongle.h"
 #include "ros/ros.h"
 #include "follow_me_flie_ros/StartRadio.h"
 #include "follow_me_flie_ros/StopRadio.h"
 #include "follow_me_flie_ros/Status.h"
+#include <follow_me_flie_ros/RawPacket.h>
 
 class RadioDongleNode {
 public:
@@ -25,6 +27,11 @@ private:
 
     ros::Timer _timer;
 
+    ros::Subscriber _subscriberRegisterPacketToSend;
+
+
+
+
     bool StartRadio(
             follow_me_flie_ros::StartRadio::Request  &req,
             follow_me_flie_ros::StartRadio::Response &res) ;
@@ -34,6 +41,8 @@ private:
     bool Status(
             follow_me_flie_ros::Status::Request  &req,
             follow_me_flie_ros::Status::Response &res) ;
+
+    void RegisterPacktToSend(follow_me_flie_ros::RawPacketConstPtr const & packet);
 
     void Run();
     void RunCallBack(ros::TimerEvent const & event);

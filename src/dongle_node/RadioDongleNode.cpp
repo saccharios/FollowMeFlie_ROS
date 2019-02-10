@@ -5,6 +5,9 @@
 #include "follow_me_flie_ros/StopRadio.h"
 #include "follow_me_flie_ros/Status.h"
 #include "time_levels.h"
+#include <src/ros_topic_definitions.h>
+#include "follow_me_flie_ros/RawPacket.h"
+
 RadioDongleNode::RadioDongleNode() :
     _nh(),
     _dongle(),
@@ -16,8 +19,7 @@ RadioDongleNode::RadioDongleNode() :
 
     _timer = _nh.createTimer(ros::Duration(sendReceiveSamplingTime_seconds), &RadioDongleNode::RunCallBack, this);
 
-
-
+    _subscriberRegisterPacketToSend = _nh.subscribe(RosTopics::SendPackets, 1000, &RadioDongleNode::RegisterPacktToSend, this);
 }
 
 bool RadioDongleNode::StartRadio(
@@ -57,9 +59,25 @@ void RadioDongleNode::Run()
 
 }
 
+void RadioDongleNode::RegisterPacktToSend(follow_me_flie_ros::RawPacketConstPtr const & packet)
+{
+    // Convert
+    RawPacket rawPacket;
+    for(int i = 0; i < RawPacket::maxBufferLength; ++i)
+    {
+        rawPacket._data.at(i) = packet->data.at(i);
+    }
+    rawPacket._length = packet->length;
+
+    // Register
+    _dongle.RegisterPacketToSend(rawPacket);
+}
+
 void RadioDongleNode::RunCallBack(ros::TimerEvent const & event)
 {
     _dongle.SendPacketsNow();
-    _dongle.ReceivePacket();
+    _dongle.ReceivePacket(); // TODO SF: have it return a std::option of the recievec packet. dont use qt signals/slots in this class
 }
+
+
 

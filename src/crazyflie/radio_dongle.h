@@ -46,13 +46,13 @@ public:
     bool RadioIsConnected() const;
 
 public slots:
-    void RegisterPacketToSend(RawPacket rawPacket);
-    void SendPacketsNow();
-    void ReceivePacket();
+    void RegisterPacketToSend(RawPacket rawPacket); // subscribe
+    void SendPacketsNow(); // internal
+    void ReceivePacket(); // internal
 
 signals:
-    void RawPacketReady(RawPacket rawPacket);
-    void USBOKSignal(bool ok);
+    void RawPacketReady(RawPacket rawPacket); // publish
+    void USBOKSignal(bool ok); // publish
 
 private:
 

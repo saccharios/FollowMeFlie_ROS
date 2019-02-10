@@ -15,9 +15,15 @@ public:
 private:
     RadioDongle _dongle;
     ros::NodeHandle _nh;
+    ros::Rate _loop_rate;
+
+
     ros::ServiceServer _serviceStartRadio;
     ros::ServiceServer _serviceStopRadio;
     ros::ServiceServer _serviceStatus;
+
+
+    ros::Timer _timer;
 
     bool StartRadio(
             follow_me_flie_ros::StartRadio::Request  &req,
@@ -29,6 +35,7 @@ private:
             follow_me_flie_ros::Status::Request  &req,
             follow_me_flie_ros::Status::Response &res) ;
 
-
+    void Run();
+    void RunCallBack(ros::TimerEvent const & event);
 };
 

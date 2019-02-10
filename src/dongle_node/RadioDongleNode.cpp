@@ -4,14 +4,18 @@
 #include "follow_me_flie_ros/StartRadio.h"
 #include "follow_me_flie_ros/StopRadio.h"
 #include "follow_me_flie_ros/Status.h"
-
+#include "time_levels.h"
 RadioDongleNode::RadioDongleNode() :
     _nh(),
-    _dongle()
+    _dongle(),
+    _loop_rate(1.0f/sendReceiveSamplingTime)
 {
     _serviceStartRadio = _nh.advertiseService(RosService::StartRadio, &RadioDongleNode::StartRadio, this);
     _serviceStopRadio = _nh.advertiseService(RosService::StopRadio, &RadioDongleNode::StopRadio, this);
     _serviceStatus = _nh.advertiseService(RosService::Status, &RadioDongleNode::Status, this);
+
+    _timer = _nh.createTimer(ros::Duration(sendReceiveSamplingTime_seconds), &RadioDongleNode::RunCallBack, this);
+
 
 
 }
@@ -39,3 +43,23 @@ bool RadioDongleNode::Status(
     res.response = _dongle.RadioIsConnected();
     return true;
 }
+
+void RadioDongleNode::Run()
+{
+    // Run at rate of SendPacketsNow and ReceivePacket (every 1ms)
+    while(ros::ok())
+    {
+        // do
+        ros::spinOnce();
+        _loop_rate.sleep();
+    }
+
+
+}
+
+void RadioDongleNode::RunCallBack(ros::TimerEvent const & event)
+{
+    _dongle.SendPacketsNow();
+    _dongle.ReceivePacket();
+}
+

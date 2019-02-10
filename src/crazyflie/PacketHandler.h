@@ -4,14 +4,14 @@
 #include "raw_packet.h"
 #include "ros/ros.h"
 #include "follow_me_flie_ros/RawPacket.h"
-
+#include "ros_topic_definitions.h"
 class PacketHandler :  public QObject
 {
     Q_OBJECT
 public:
     PacketHandler() : _nh()
     {
-        _pub = _nh.advertise<follow_me_flie_ros::RawPacket>("SendPackets", 1000);
+        _pub = _nh.advertise<follow_me_flie_ros::RawPacket>(RosTopics::SendPackets, 1000);
     }
     bool AckReceived() const;
     bool IsUsbConnectionOk() const;

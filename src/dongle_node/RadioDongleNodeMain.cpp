@@ -5,6 +5,7 @@
 #include "follow_me_flie_ros/RawPacket.h"
 #include "crazyflie/crtp_packet.h"
 #include "crazyflie/raw_packet.h"
+#include "ros_topic_definitions.h"
 
 void callback(follow_me_flie_ros::RawPacketConstPtr const & rawPacket)
 {
@@ -24,7 +25,7 @@ int main(int argc, char **argv)
 
 
     ros::NodeHandle nh;
-    ros::Subscriber sub = nh.subscribe("SendPackets", 1000, &callback);
+    ros::Subscriber sub = nh.subscribe(RosTopics::SendPackets, 1000, &callback);
     ROS_INFO_STREAM("Radio Donge up and running.");
 
     ros::spin();

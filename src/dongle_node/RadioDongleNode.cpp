@@ -20,6 +20,9 @@ RadioDongleNode::RadioDongleNode() :
     _timer = _nh.createTimer(ros::Duration(sendReceiveSamplingTime_seconds), &RadioDongleNode::RunCallBack, this);
 
     _subscriberRegisterPacketToSend = _nh.subscribe(RosTopics::SendPackets, 1000, &RadioDongleNode::RegisterPacktToSend, this);
+
+    _publisherRawPacketReady = _nh.advertise<follow_me_flie_ros::RawPacket>(RosTopics::RawPacketReceived, 1000);
+
 }
 
 bool RadioDongleNode::StartRadio(
@@ -76,7 +79,22 @@ void RadioDongleNode::RegisterPacktToSend(follow_me_flie_ros::RawPacketConstPtr 
 void RadioDongleNode::RunCallBack(ros::TimerEvent const & event)
 {
     _dongle.SendPacketsNow();
-    _dongle.ReceivePacket(); // TODO SF: have it return a std::option of the recievec packet. dont use qt signals/slots in this class
+
+
+    auto response = _dongle.ReceivePacket();
+    if(response.has_value())
+    {
+        follow_me_flie_ros::RawPacket packet;
+        packet.length = response.value()._length;
+        for(int i = 0; i < RawPacket::maxBufferLength; ++i)
+        {
+            packet.data.at(i) = response.value()._data.at(i);
+        }
+
+        _publisherRawPacketReady.publish(packet);
+    }
+
+
 }
 
 

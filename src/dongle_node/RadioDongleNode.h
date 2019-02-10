@@ -28,8 +28,7 @@ private:
     ros::Timer _timer;
 
     ros::Subscriber _subscriberRegisterPacketToSend;
-
-
+    ros::Publisher _publisherRawPacketReady;
 
 
     bool StartRadio(

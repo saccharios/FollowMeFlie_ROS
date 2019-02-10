@@ -387,10 +387,10 @@ void RadioDongle::RegisterPacketToSend(RawPacket rawPacket)
     _packetsToSend.push(packet);
 }
 
-void RadioDongle::ReceivePacket() // executed every 1ms
+std::optional<RawPacket> RadioDongle::ReceivePacket() // executed every 1ms
 {
     if(!_radioIsConnected)
-        return;
+        return {};
 
     int bufferSize = 64;
     uint8_t buffer[bufferSize];
@@ -400,7 +400,7 @@ void RadioDongle::ReceivePacket() // executed every 1ms
     // Check validity of packet
     if(!readDataOK)
     {
-        return;
+        return {};
     }
     if(bytesRead > 0)
     {
@@ -410,5 +410,7 @@ void RadioDongle::ReceivePacket() // executed every 1ms
 
         // Process the packe and distribute to ports + channels
         emit RawPacketReady(rawPacket);
+        return rawPacket;
     }
+    return {};
 }

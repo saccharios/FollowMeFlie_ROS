@@ -205,18 +205,15 @@ void MainWindow::on_connectRadio_clicked()
         msgBox.setStandardButtons(QMessageBox::Retry | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Cancel);
         int ret = msgBox.exec();
-        switch(ret)
-        {
-        default:
-        case QMessageBox::Cancel:
-            {
+        switch (ret) {
+            default:
+            case QMessageBox::Cancel: {
                 break;
             }
-        case QMessageBox::Retry:
-        {
-            on_connectRadio_clicked();
-            break;
-        }
+            case QMessageBox::Retry: {
+                on_connectRadio_clicked();
+                break;
+            }
         }
     }
 }

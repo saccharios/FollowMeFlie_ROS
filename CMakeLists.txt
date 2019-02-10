@@ -77,6 +77,8 @@ add_message_files(
 add_service_files(
   FILES
   StartRadio.srv
+  StopRadio.srv
+  Status.srv
 )
 
 ## Generate actions in the 'action' folder

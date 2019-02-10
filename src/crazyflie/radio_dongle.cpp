@@ -333,11 +333,12 @@ bool RadioDongle::ClaimInterface(int interface)
 }
 
 
-void RadioDongle::IsUsbConnectionOk()
+bool RadioDongle::IsUsbConnectionOk()
 {
     libusb_device_descriptor descriptor;
     bool ok = (libusb_get_device_descriptor(_devDevice, &descriptor) == 0);
     emit USBOKSignal(ok);
+    return ok;
 }
 
 bool RadioDongle::RadioIsConnected() const

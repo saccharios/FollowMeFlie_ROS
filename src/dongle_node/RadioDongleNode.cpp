@@ -7,6 +7,7 @@
 #include "time_levels.h"
 #include <src/ros_topic_definitions.h>
 #include "follow_me_flie_ros/RawPacket.h"
+#include "follow_me_flie_ros/USBConnStatus.h"
 
 RadioDongleNode::RadioDongleNode() :
     _nh(),
@@ -22,6 +23,7 @@ RadioDongleNode::RadioDongleNode() :
     _subscriberRegisterPacketToSend = _nh.subscribe(RosTopics::SendPackets, 1000, &RadioDongleNode::RegisterPacktToSend, this);
 
     _publisherRawPacketReady = _nh.advertise<follow_me_flie_ros::RawPacket>(RosTopics::RawPacketReceived, 1000);
+    _publisherUSBConnectionIsOk = _nh.advertise<follow_me_flie_ros::USBConnStatus>(RosTopics::USBConnStatus, 1000);
 
 }
 
@@ -78,9 +80,15 @@ void RadioDongleNode::RegisterPacktToSend(follow_me_flie_ros::RawPacketConstPtr 
 
 void RadioDongleNode::RunCallBack(ros::TimerEvent const & event)
 {
+
+    follow_me_flie_ros::USBConnStatus USBConnStatusMsg;
+    USBConnStatusMsg.USBConnStatus = _dongle.IsUsbConnectionOk();
+    _publisherUSBConnectionIsOk.publish(USBConnStatusMsg);
+
+    // Send Packets
     _dongle.SendPacketsNow();
 
-
+    // Receive packets, needed to be converted
     auto response = _dongle.ReceivePacket();
     if(response.has_value())
     {

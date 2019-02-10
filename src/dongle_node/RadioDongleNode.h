@@ -29,6 +29,7 @@ private:
 
     ros::Subscriber _subscriberRegisterPacketToSend;
     ros::Publisher _publisherRawPacketReady;
+    ros::Publisher _publisherUSBConnectionIsOk;
 
 
     bool StartRadio(

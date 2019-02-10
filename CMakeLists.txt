@@ -69,8 +69,9 @@ set(qt5_components
 
 ## Generate messages in the 'msg' folder
 add_message_files(
-  FILES
-  RawPacket.msg
+        FILES
+        RawPacket.msg
+        USBConnStatus.msg
 )
 
 ## Generate services in the 'srv' folder

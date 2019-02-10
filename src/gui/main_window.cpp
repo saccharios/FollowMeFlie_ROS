@@ -11,6 +11,8 @@
 #include "parameter_model.h"
 #include <QTableView>
 #include <follow_me_flie_ros/StartRadio.h>
+#include <follow_me_flie_ros/StopRadio.h>
+#include <follow_me_flie_ros/Status.h>
 #include <src/ros_service_definitions.h>
 
 #include "qt_util.h"
@@ -24,6 +26,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
+    _radioDongle(),
     _packetHandler(),
     _crazyFlie(_packetHandler),
     ui(new Ui::MainWindow),
@@ -143,6 +146,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QObject::connect(&_crazyFlie, SIGNAL(SendPacket(CRTPPacket)) ,
                      &_packetHandler, SLOT(RegisterPacketToSend(CRTPPacket)));
+
     QObject::connect(&_packetHandler, SIGNAL(RawPacketReadyToSend(RawPacket)) ,
                      &_radioDongle, SLOT(RegisterPacketToSend(RawPacket)));
 
@@ -150,6 +154,8 @@ MainWindow::MainWindow(QWidget *parent) :
                      &_packetHandler, SLOT(USBConnectionOK(bool)));
 
     _clientStartRadio = _nh.serviceClient<follow_me_flie_ros::StartRadio>(RosService::StartRadio);
+    _clientStopRadio = _nh.serviceClient<follow_me_flie_ros::StopRadio>(RosService::StopRadio);
+    _clientStatus = _nh.serviceClient<follow_me_flie_ros::Status>(RosService::Status);
 
 
 }
@@ -199,8 +205,9 @@ void MainWindow::on_disconnectRadio_clicked()
 void MainWindow::on_connectRadio_clicked()
 {
     StartRadio();
+    bool radioIsConnected = IsRadioConnected();
 
-    if(_radioDongle.RadioIsConnected())
+    if(radioIsConnected)
     {
         _crazyFlie.StartConnecting(true);
     }
@@ -224,6 +231,19 @@ void MainWindow::on_connectRadio_clicked()
             }
         }
     }
+}
+
+bool MainWindow::IsRadioConnected() {
+    bool radioIsConnected = false;
+
+    follow_me_flie_ros::Status srv;
+    bool success = _clientStatus.call(srv);
+    if(!success)
+    {
+        std::cout << "Failed to start Radio\n";
+        radioIsConnected = srv.response.response;
+    }
+    return radioIsConnected;
 }
 
 void MainWindow::on_exitApp_clicked()

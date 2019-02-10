@@ -60,6 +60,7 @@ private slots:
     void on_pushButton_disableTestMode_clicked();
 
 private:
+    RadioDongle _radioDongle;
     PacketHandler _packetHandler;
     Crazyflie _crazyFlie;
 
@@ -87,8 +88,12 @@ private:
 
     ros::NodeHandle _nh;
     ros::ServiceClient _clientStartRadio;
+    ros::ServiceClient _clientStopRadio;
+    ros::ServiceClient _clientStatus;
 
     void DisplayConnectionStatus();
 
     void StartRadio();
+
+    bool IsRadioConnected();
 };

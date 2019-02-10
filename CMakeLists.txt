@@ -153,7 +153,6 @@ add_library(${PROJECT_NAME}_lib
   src/crazyflie/crazy_flie_commander.cpp
   src/crazyflie/crazy_flie.cpp
   src/crazyflie/crtp_packet.cpp
-  src/crazyflie/radio_dongle.cpp
   src/crazyflie/toc_log.cpp
   src/crazyflie/toc_parameter.cpp
   src/crazyflie/raw_packet.cpp

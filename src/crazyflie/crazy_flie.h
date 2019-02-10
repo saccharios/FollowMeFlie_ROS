@@ -6,7 +6,6 @@
 
 #include <QObject>
 #include <cmath>
-#include "radio_dongle.h"
 #include <memory>
 #include "math/logic.h"
 #include "math/types.h"

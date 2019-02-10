@@ -13,7 +13,7 @@
 #include <src/crazyflie/PacketHandler.h>
 #include "actual_values_model.h"
 #include "parameter_model.h"
-
+#include "ros/ros.h"
 namespace Ui
 {
 class MainWindow;
@@ -60,7 +60,6 @@ private slots:
     void on_pushButton_disableTestMode_clicked();
 
 private:
-    RadioDongle _radioDongle;
     PacketHandler _packetHandler;
     Crazyflie _crazyFlie;
 
@@ -86,5 +85,10 @@ private:
     ExtractColor _extractColor;
     CrazyFlieCommander _commander;
 
+    ros::NodeHandle _nh;
+    ros::ServiceClient _clientStartRadio;
+
     void DisplayConnectionStatus();
+
+    void StartRadio();
 };

@@ -10,6 +10,8 @@
 #include "actual_values_model.h"
 #include "parameter_model.h"
 #include <QTableView>
+#include <follow_me_flie_ros/StartRadio.h>
+#include <src/ros_service_definitions.h>
 
 #include "qt_util.h"
 #include "time_levels.h"
@@ -18,9 +20,10 @@
 #include "set_point_dialog.h"
 #include "crazyflie/crazy_flie_commander.h"
 #include "crazyflie/raw_packet.h"
+#include "ros/ros.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    _radioDongle(),
     _packetHandler(),
     _crazyFlie(_packetHandler),
     ui(new Ui::MainWindow),
@@ -39,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
      _trackingColor(),
     _camera(),
     _extractColor(_trackingColor.GetColor()),
-    _commander(_crazyFlie, crazyflieUpdateSamplingTime_seconds)
+    _commander(_crazyFlie, crazyflieUpdateSamplingTime_seconds),
+    _nh()
 {
     ui->setupUi(this);
     // Event loop on main window
@@ -145,6 +149,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(&_radioDongle, SIGNAL(USBOKSignal(bool)) ,
                      &_packetHandler, SLOT(USBConnectionOK(bool)));
 
+    _clientStartRadio = _nh.serviceClient<follow_me_flie_ros::StartRadio>(RosService::StartRadio);
+
+
 }
 MainWindow::~MainWindow()
 {
@@ -191,7 +198,8 @@ void MainWindow::on_disconnectRadio_clicked()
 
 void MainWindow::on_connectRadio_clicked()
 {
-    _radioDongle.StartRadio();
+    StartRadio();
+
     if(_radioDongle.RadioIsConnected())
     {
         _crazyFlie.StartConnecting(true);
@@ -366,4 +374,13 @@ void MainWindow::on_pushButton_enableTestMode_clicked()
 void MainWindow::on_pushButton_disableTestMode_clicked()
 {
     _crazyFlie.EnableTestMode(false);
+}
+
+void MainWindow::StartRadio() {
+    follow_me_flie_ros::StartRadio srv;
+    bool success = _clientStartRadio.call(srv);
+    if(!success)
+    {
+        std::cout << "Failed to start Radio\n";
+    }
 }

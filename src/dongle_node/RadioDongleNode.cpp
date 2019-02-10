@@ -66,13 +66,7 @@ void RadioDongleNode::Run()
 
 void RadioDongleNode::RegisterPacktToSend(follow_me_flie_ros::RawPacketConstPtr const & packet)
 {
-    // Convert
-    RawPacket rawPacket;
-    for(int i = 0; i < RawPacket::maxBufferLength; ++i)
-    {
-        rawPacket._data.at(i) = packet->data.at(i);
-    }
-    rawPacket._length = packet->length;
+    RawPacket rawPacket = ConvertMsgPacketToRawPacket(packet);
 
     // Register
     _dongle.RegisterPacketToSend(rawPacket);
@@ -92,12 +86,9 @@ void RadioDongleNode::RunCallBack(ros::TimerEvent const & event)
     auto response = _dongle.ReceivePacket();
     if(response.has_value())
     {
-        follow_me_flie_ros::RawPacket packet;
-        packet.length = response.value()._length;
-        for(int i = 0; i < RawPacket::maxBufferLength; ++i)
-        {
-            packet.data.at(i) = response.value()._data.at(i);
-        }
+        RawPacket rawPacket = response.value();
+
+        follow_me_flie_ros::RawPacket packet = ConvertRawPacketToMsgPacket(rawPacket);
 
         _publisherRawPacketReady.publish(packet);
     }

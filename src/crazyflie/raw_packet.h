@@ -2,6 +2,7 @@
 #include </usr/include/eigen3/Eigen/Core>
 #include <memory>
 #include "crtp_packet.h"
+#include "follow_me_flie_ros/RawPacket.h"
 
 class RawPacket
 {
@@ -36,6 +37,9 @@ public:
     }
 
 };
+
+RawPacket ConvertMsgPacketToRawPacket(const follow_me_flie_ros::RawPacketConstPtr &packet);
+follow_me_flie_ros::RawPacket ConvertRawPacketToMsgPacket(const RawPacket & rawPacket);
 
 
 std::ostream & operator << (std::ostream& stream, RawPacket const & packet);

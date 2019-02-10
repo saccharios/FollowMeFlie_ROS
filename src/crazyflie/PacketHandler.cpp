@@ -11,13 +11,8 @@ void PacketHandler::RegisterPacketToSend(CRTPPacket packet)
     RawPacket rawPacket(packet);
     emit RawPacketReadyToSend(rawPacket);
 
-    follow_me_flie_ros::RawPacket msg;
-    for (int i = 0; i < rawPacket._length; ++i)
-    {
-        msg.data[i] = rawPacket._data.at(i);
-    }
-    msg.length = rawPacket._length;
-    _pub.publish(msg);
+    follow_me_flie_ros::RawPacket rawPacketMsg = ConvertRawPacketToMsgPacket(rawPacket);
+    _publisherSendPackets.publish(rawPacketMsg);
 }
 
 void PacketHandler::ReceiveRawPacket(RawPacket rawPacket)
@@ -89,4 +84,15 @@ bool PacketHandler::IsUsbConnectionOk() const
 void PacketHandler::USBConnectionOK(bool ok)
 {
     _isUsbConnectionOk = ok;
+}
+
+void PacketHandler::ReceiveRawPacketMsg(follow_me_flie_ros::RawPacketConstPtr const & packet){
+
+    RawPacket rawPacket = ConvertMsgPacketToRawPacket(packet);
+    ReceiveRawPacket(rawPacket);
+}
+
+void PacketHandler::USBConnStatus(follow_me_flie_ros::USBConnStatusConstPtr const & usbConnStatus)
+{
+    USBConnectionOK(usbConnStatus->USBConnStatus);
 }

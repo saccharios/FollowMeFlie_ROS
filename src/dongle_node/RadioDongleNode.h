@@ -15,13 +15,10 @@ public:
 private:
     RadioDongle _dongle;
     ros::NodeHandle _nh;
-    ros::Rate _loop_rate;
-
 
     ros::ServiceServer _serviceStartRadio;
     ros::ServiceServer _serviceStopRadio;
     ros::ServiceServer _serviceStatus;
-
 
     ros::Timer _timer;
 

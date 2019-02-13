@@ -29,13 +29,14 @@ Crazyflie::~Crazyflie()
 // Runs on 10ms.
 void Crazyflie::Update()
 {
-   // std::cout << "Connection state = " << static_cast<int>(_state) << std::endl;
+    ROS_INFO_THROTTLE(1,"Connection state = %d", static_cast<int>(_state));
     switch(_state)
     {
     case State::ZERO:
     {
         if(_startConnecting)
         {
+            std::cout << "Connection state = start Connecting" << std::endl;
             if( !_packetHandler.IsUsbConnectionOk() ) // Can't connect if dongle is not ready
             {
                 _state = State::ZERO;
@@ -56,6 +57,7 @@ void Crazyflie::Update()
     }
     case State::SETUP_PARAMETERS:
     {
+
         bool success = _parameters.Setup();
         if(success)
         {

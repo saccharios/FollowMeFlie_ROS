@@ -11,8 +11,7 @@
 
 RadioDongleNode::RadioDongleNode() :
     _nh(),
-    _dongle(),
-    _loop_rate(1.0f/sendReceiveSamplingTime)
+    _dongle()
 {
     _serviceStartRadio = _nh.advertiseService(RosService::StartRadio, &RadioDongleNode::StartRadio, this);
     _serviceStopRadio = _nh.advertiseService(RosService::StopRadio, &RadioDongleNode::StopRadio, this);
@@ -31,7 +30,7 @@ bool RadioDongleNode::StartRadio(
         follow_me_flie_ros::StartRadio::Request  &,
         follow_me_flie_ros::StartRadio::Response &)
 {
-    _dongle.StartRadio();
+    _dongle.ReleaseRadio(true);
     return true;
 }
 
@@ -39,7 +38,7 @@ bool RadioDongleNode::StopRadio(
         follow_me_flie_ros::StopRadio::Request  &,
         follow_me_flie_ros::StopRadio::Response &)
 {
-    _dongle.StopRadio();
+    _dongle.ReleaseRadio(false);
     return true;
 }
 
@@ -53,15 +52,7 @@ bool RadioDongleNode::Status(
 
 void RadioDongleNode::Run()
 {
-    // Run at rate of SendPacketsNow and ReceivePacket (every 1ms)
-    while(ros::ok())
-    {
-        // do
-        ros::spinOnce();
-        _loop_rate.sleep();
-    }
-
-
+    ros::spin();
 }
 
 void RadioDongleNode::RegisterPacktToSend(follow_me_flie_ros::RawPacketConstPtr const & packet)
@@ -74,9 +65,9 @@ void RadioDongleNode::RegisterPacktToSend(follow_me_flie_ros::RawPacketConstPtr 
 
 void RadioDongleNode::RunCallBack(ros::TimerEvent const & event)
 {
-
     follow_me_flie_ros::USBConnStatus USBConnStatusMsg;
     USBConnStatusMsg.USBConnStatus = _dongle.IsUsbConnectionOk();
+
     _publisherUSBConnectionIsOk.publish(USBConnStatusMsg);
 
     // Send Packets

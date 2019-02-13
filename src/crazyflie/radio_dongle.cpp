@@ -5,6 +5,7 @@
 #include "text_logger.h"
 #include "raw_packet.h"
 #include <libusb-1.0/libusb.h>
+#include <rosconsole/macros_generated.h>
 
 RadioDongle::RadioDongle() :
     _context(nullptr),
@@ -24,6 +25,8 @@ RadioDongle::RadioDongle() :
     _address[2] = 0xe7;
     _address[3] = 0xe7;
     _address[4] = 0xe7;
+
+    StartRadio();
 }
 RadioDongle::~RadioDongle()
 {
@@ -335,15 +338,10 @@ bool RadioDongle::ClaimInterface(int interface)
 
 bool RadioDongle::IsUsbConnectionOk()
 {
-    // TODO SF This function is useless?
-    if (_radioIsConnected) {
-        libusb_device_descriptor descriptor;
-        bool ok = (libusb_get_device_descriptor(_devDevice, &descriptor) == 0);
-        emit USBOKSignal(ok);
-        return ok;
-    } else {
-        return true;
-    }
+    libusb_device_descriptor descriptor;
+    bool ok = (libusb_get_device_descriptor(_devDevice, &descriptor) == 0);
+    emit USBOKSignal(ok);
+    return ok;
 }
 
 bool RadioDongle::RadioIsConnected() const
@@ -359,6 +357,11 @@ float RadioDongle::ConvertToDeviceVersion(short number) const
 
 void RadioDongle::SendPacketsNow()
 {
+    if(!_released)
+    {
+        return;
+    }
+
     // Call function periodically
     // Sends one package every call.
     // If _packetsSending is empty, a ping packet is sent to keep the connection open
@@ -366,21 +369,20 @@ void RadioDongle::SendPacketsNow()
     {
         CRTPPacket ping_packet{Console::id, Console::Print::id, {static_cast<uint8_t>(0xff)}};
         SendPacket(ping_packet);
-
     }
     else
     {
         CRTPPacket packet = _packetsToSend.front();
         _packetsToSend.pop();
-        //        packet.Print();
         SendPacket(packet);
+        std::cout << "Send packet " << packet << std::endl;
         //    textLogger << "Sending one packet, " << _packetsSending.size() << " left to send\n";
     }
 }
 
 bool RadioDongle::SendPacket(CRTPPacket packet)
 {
-    if(!_radioIsConnected)
+    if(!_radioIsConnected || !_released)
         return false;
 
     IsUsbConnectionOk();
@@ -390,13 +392,15 @@ bool RadioDongle::SendPacket(CRTPPacket packet)
 void RadioDongle::RegisterPacketToSend(RawPacket rawPacket)
 {
     CRTPPacket packet(rawPacket);
+    std::cout << "----Regsiter packet to send " << packet << std::endl;
     _packetsToSend.push(packet);
 }
 
 std::optional<RawPacket> RadioDongle::ReceivePacket() // executed every 1ms
 {
-    if(!_radioIsConnected)
+    if(!_radioIsConnected || !_released)
         return {};
+
 
     int bufferSize = 64;
     uint8_t buffer[bufferSize];

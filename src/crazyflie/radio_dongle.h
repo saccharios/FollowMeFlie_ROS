@@ -41,6 +41,8 @@ public:
     RadioDongle();
     ~RadioDongle();
 
+    void ReleaseRadio(bool release) {_released  = release;}
+
     void StartRadio();
     void StopRadio();
     bool RadioIsConnected() const;
@@ -98,8 +100,6 @@ private:
     bool WriteRadioControl(uint8_t* data, int length, DongleConfiguration request, uint16_t value, uint16_t index);
     bool SendPacket(CRTPPacket packet); // Call when a packet is requested to send
 
-
-
-
+    bool _released = false;
 };
 

@@ -43,3 +43,5 @@ follow_me_flie_ros::RawPacket ConvertRawPacketToMsgPacket(const RawPacket & rawP
 
 
 std::ostream & operator << (std::ostream& stream, RawPacket const & packet);
+std::ostream & operator << (std::ostream& stream, follow_me_flie_ros::RawPacket const & packet);
+

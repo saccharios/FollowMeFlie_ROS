@@ -222,8 +222,8 @@ bool MainWindow::IsRadioConnected() {
     if(!success)
     {
         std::cout << "Failed to start Radio\n";
-        radioIsConnected = srv.response.response;
     }
+    radioIsConnected = srv.response.response;
     return radioIsConnected;
 }
 

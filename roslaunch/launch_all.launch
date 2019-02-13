@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="follow_me_flie_ros" name="follow_me_flie_ros_node" type="follow_me_flie_ros_node"/>
+  <node pkg="follow_me_flie_ros" name="radio_dongle_node" type="radio_dongle_node"/>
+</launch>

@@ -335,10 +335,15 @@ bool RadioDongle::ClaimInterface(int interface)
 
 bool RadioDongle::IsUsbConnectionOk()
 {
-    libusb_device_descriptor descriptor;
-    bool ok = (libusb_get_device_descriptor(_devDevice, &descriptor) == 0);
-    emit USBOKSignal(ok);
-    return ok;
+    // TODO SF This function is useless?
+    if (_radioIsConnected) {
+        libusb_device_descriptor descriptor;
+        bool ok = (libusb_get_device_descriptor(_devDevice, &descriptor) == 0);
+        emit USBOKSignal(ok);
+        return ok;
+    } else {
+        return true;
+    }
 }
 
 bool RadioDongle::RadioIsConnected() const

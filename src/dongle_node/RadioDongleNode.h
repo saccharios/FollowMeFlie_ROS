@@ -10,9 +10,7 @@
 class RadioDongleNode {
 public:
     RadioDongleNode();
-
-
-
+    void Run();
 
 private:
     RadioDongle _dongle;
@@ -44,7 +42,7 @@ private:
 
     void RegisterPacktToSend(follow_me_flie_ros::RawPacketConstPtr const & packet);
 
-    void Run();
+
     void RunCallBack(ros::TimerEvent const & event);
 };
 

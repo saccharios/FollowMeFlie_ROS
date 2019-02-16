@@ -27,6 +27,7 @@ RadioDongle::RadioDongle() :
     _address[4] = 0xe7;
 
     StartRadio();
+    std::cout << "RadioDongle up\n";
 }
 RadioDongle::~RadioDongle()
 {

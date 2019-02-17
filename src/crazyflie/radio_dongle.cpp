@@ -393,7 +393,6 @@ bool RadioDongle::SendPacket(CRTPPacket packet)
 void RadioDongle::RegisterPacketToSend(RawPacket rawPacket)
 {
     CRTPPacket packet(rawPacket);
-    std::cout << "----Regsiter packet to send " << packet << std::endl;
     _packetsToSend.push(packet);
 }
 
@@ -418,7 +417,7 @@ std::optional<RawPacket> RadioDongle::ReceivePacket() // executed every 1ms
         // Convert the raw data to a packet
         RawPacket rawPacket(buffer, bytesRead);
 
-
+        std::cout << "Received packet: " << rawPacket << std::endl;
         // Process the packe and distribute to ports + channels
         emit RawPacketReady(rawPacket);
         return rawPacket;
